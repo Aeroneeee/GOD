@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Intent homeIntent = new Intent(MainActivity.this, PlayActivity.class);
                 startActivity(homeIntent);
+                overridePendingTransition(0, 0);
                 finish();
             }
         },SPlASH_TIME_OUT);

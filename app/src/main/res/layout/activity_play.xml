@@ -23,6 +23,12 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="#00FFFFFF"
-        app:srcCompat="@drawable/car_game_logo"/>
+        app:srcCompat="@drawable/menu_monster_attack_logo"/>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="337dp"
+        app:srcCompat="@drawable/road_trip_typography_logo3" />
 
 </RelativeLayout>
