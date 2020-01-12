@@ -2,20 +2,33 @@ package com.example.god;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
+import android.widget.ImageButton;
 
-public class MainActivity extends AppCompatActivity {
+public class PlayActivity extends AppCompatActivity {
 
-    private static int SPlASH_TIME_OUT = 4000;
+    private ImageButton settingsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_play);
+
+        init();
+
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bounce(settingsBtn);
+            }
+        });
+
+    }
+
+    private void init() {
+        this.settingsBtn = findViewById(R.id.settingsBtnId);
 
         View decorView = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -28,15 +41,14 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
             );
         }
+    }
 
-        new Handler().postDelayed(new Runnable() {
+    private void bounce(final ImageButton btn){
+        btn.animate().scaleX(0.7f).scaleY(0.7f).setDuration(100).withEndAction(new Runnable() {
             @Override
             public void run() {
-                Intent homeIntent = new Intent(MainActivity.this, PlayActivity.class);
-                startActivity(homeIntent);
-                finish();
+                btn.animate().scaleX(1f).scaleY(1f);
             }
-        },SPlASH_TIME_OUT);
-
+        });
     }
 }
