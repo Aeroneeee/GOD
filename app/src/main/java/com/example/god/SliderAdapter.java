@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-//import com.varunest.sparkbutton.SparkButton;
+import com.varunest.sparkbutton.SparkButton;
 
 public class SliderAdapter extends PagerAdapter {
 
@@ -22,10 +22,10 @@ public class SliderAdapter extends PagerAdapter {
     }
 
     //Arrays
-//    public  int[] slide_logo_image = {
-//        R.drawable.ic_menu_car_game_logo,
-//        R.drawable.ic_menu_monster_attack_logo
-//    };
+    public  int[] slide_logo_image = {
+        R.drawable.ic_menu_car_game_logo,
+        R.drawable.ic_menu_monster_attack_logo
+    };
 
     public  int[] slide_name_image = {
         R.drawable.ic_road_trip_typography_logo,
@@ -34,12 +34,12 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return 2;
     }
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == object;
+        return view == (RelativeLayout) object;
     }
 
     @NonNull
@@ -49,12 +49,11 @@ public class SliderAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.slide_layout, container,false);
 
         ImageView slideImageView = (ImageView) view.findViewById(R.id.nameId);
-//        SparkButton slideSparkButton = view.findViewById(R.id.logoId);
+        SparkButton slideSparkButton = view.findViewById(R.id.logoId);
 
         slideImageView.setImageResource(slide_name_image[position]);
-//        slideSparkButton.setActiveImage(slide_logo_image[position]);
-//        slideSparkButton.setInactiveImage(slide_logo_image[position]);
-//        slideSparkButton.setAnimationSpeed((float) 1.5);
+        slideSparkButton.setActiveImage(slide_logo_image[position]);
+        slideSparkButton.setInactiveImage(slide_logo_image[position]);
 
         container.addView(view);
 

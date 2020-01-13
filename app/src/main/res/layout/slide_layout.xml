@@ -8,10 +8,11 @@
     <com.varunest.sparkbutton.SparkButton
         android:id="@+id/logoId"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:sparkbutton_activeImage="@drawable/ic_menu_monster_attack_logo"
+        android:layout_height="550dp"
+        android:layout_centerInParent="true"
+        app:sparkbutton_activeImage="@drawable/ic_menu_car_game_logo"
+        app:sparkbutton_iconSize="370dp"
         app:sparkbutton_inActiveImage="@drawable/ic_menu_car_game_logo"
-        app:sparkbutton_iconSize="320dp"
         app:sparkbutton_primaryColor="@color/primary_color"
         app:sparkbutton_secondaryColor="@color/secondary_color" />
 
@@ -22,6 +23,7 @@
         android:layout_height="287dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="false"
+        android:contentDescription="@null"
         android:paddingTop="60dp"
         android:scaleType="fitCenter"
         tools:srcCompat="@drawable/ic_road_trip_typography_logo" />
