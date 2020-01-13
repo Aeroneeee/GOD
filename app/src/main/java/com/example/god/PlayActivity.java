@@ -34,6 +34,20 @@ public class PlayActivity extends AppCompatActivity {
         this.settingsBtn = findViewById(R.id.settingsBtnId);
         this.roadTripLogoBtn = findViewById(R.id.roadTripLogoId);
 
+        fullscreen();
+    }
+
+    private void bounce(final ImageButton btn){
+        btn.animate().scaleX(0.7f).scaleY(0.7f).setDuration(100).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                btn.animate().scaleX(1f).scaleY(1f);
+                fullscreen();
+            }
+        });
+    }
+
+    private void fullscreen() {
         View decorView = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             decorView.setSystemUiVisibility(
@@ -45,14 +59,5 @@ public class PlayActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
             );
         }
-    }
-
-    private void bounce(final ImageButton btn){
-        btn.animate().scaleX(0.7f).scaleY(0.7f).setDuration(100).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                btn.animate().scaleX(1f).scaleY(1f);
-            }
-        });
     }
 }
