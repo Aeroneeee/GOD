@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.varunest.sparkbutton.SparkButton;
+
 public class PlayActivity extends AppCompatActivity {
 
     private ImageButton settingsBtn;
+    private SparkButton roadTripLogoBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private void init() {
         this.settingsBtn = findViewById(R.id.settingsBtnId);
+        this.roadTripLogoBtn = findViewById(R.id.roadTripLogoId);
 
         View decorView = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
