@@ -7,4 +7,6 @@
     <color name="primary_color">#9BCCFF</color>
     <color name="secondary_color">#7AC971</color>
 
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorTransparentWhite">#CCCCCC</color>
 </resources>

@@ -25,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fullscreen();
-        
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent homeIntent = new Intent(MainActivity.this, PlayActivity.class);
                 startActivity(homeIntent);
-                overridePendingTransition(0, 0);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
         },SPlASH_TIME_OUT);

@@ -7,27 +7,19 @@
     android:background="@drawable/bg_image"
     tools:context=".PlayActivity">
 
-    <com.varunest.sparkbutton.SparkButton
-        android:id="@+id/roadTripLogoId"
+    <LinearLayout
+        android:id="@+id/dotsLayoutId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:sparkbutton_activeImage="@drawable/ic_menu_car_game_logo"
-        app:sparkbutton_inActiveImage="@drawable/ic_menu_car_game_logo"
-        app:sparkbutton_iconSize="320dp"
-        app:sparkbutton_primaryColor="@color/primary_color"
-        app:sparkbutton_secondaryColor="@color/secondary_color" />
-
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="394dp"
-        android:layout_height="287dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="false"
-        android:paddingTop="60dp"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_road_trip_typography_logo"
-        tools:ignore="VectorDrawableCompat" />
+        android:orientation="horizontal"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/slidePagerId"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_centerInParent="true" />
 
     <ImageButton
         android:id="@+id/settingsBtnId"

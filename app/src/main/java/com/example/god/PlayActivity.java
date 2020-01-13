@@ -1,25 +1,37 @@
 package com.example.god;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.varunest.sparkbutton.SparkButton;
 
 public class PlayActivity extends AppCompatActivity {
 
     private ImageButton settingsBtn;
-    private SparkButton roadTripLogoBtn;
+    private ViewPager slidePager;
+//    private LinearLayout dotsLayout;
+
+    private SliderAdapter sliderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        init();
+        fullscreen();
+
+        settingsBtn = findViewById(R.id.settingsBtnId);
+        slidePager = findViewById(R.id.slidePagerId);
+//        this.dotsLayout = findViewById(R.id.dotsLayoutId);
+
+        sliderAdapter = new SliderAdapter(this);
+        slidePager.setAdapter(sliderAdapter);
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,13 +40,6 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void init() {
-        this.settingsBtn = findViewById(R.id.settingsBtnId);
-        this.roadTripLogoBtn = findViewById(R.id.roadTripLogoId);
-
-        fullscreen();
     }
 
     private void bounce(final ImageButton btn){
