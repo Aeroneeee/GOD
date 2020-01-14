@@ -15,7 +15,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private ImageButton settingsBtn;
     private ViewPager slidePager;
-//    private LinearLayout dotsLayout;
+    private LinearLayout dotsLayout;
 
     private SliderAdapter sliderAdapter;
 
@@ -28,7 +28,7 @@ public class PlayActivity extends AppCompatActivity {
 
         settingsBtn = findViewById(R.id.settingsBtnId);
         slidePager = findViewById(R.id.slidePagerId);
-//        this.dotsLayout = findViewById(R.id.dotsLayoutId);
+        this.dotsLayout = findViewById(R.id.dotsLayoutId);
 
         sliderAdapter = new SliderAdapter(this);
         slidePager.setAdapter(sliderAdapter);
@@ -51,6 +51,8 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
     }
+
+    
 
     private void fullscreen() {
         View decorView = getWindow().getDecorView();

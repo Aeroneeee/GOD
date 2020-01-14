@@ -7,10 +7,21 @@
     android:background="@drawable/bg_image"
     tools:context=".PlayActivity">
 
+    <LinearLayout
+        android:id="@+id/dotsLayoutId"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slidePagerId"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
+        android:layout_height="664dp">
+
+    </androidx.viewpager.widget.ViewPager>
 
     <ImageButton
         android:id="@+id/settingsBtnId"

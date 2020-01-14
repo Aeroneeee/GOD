@@ -23,13 +23,13 @@ public class SliderAdapter extends PagerAdapter {
 
     //Arrays
     public  int[] slide_logo_image = {
-        R.drawable.ic_menu_car_game_logo,
-        R.drawable.ic_menu_monster_attack_logo
+        R.drawable.menu_car_game_logo,
+        R.drawable.menu_monster_attack_logo
     };
 
     public  int[] slide_name_image = {
-        R.drawable.ic_road_trip_typography_logo,
-        R.drawable.ic_road_trip_typography_logo
+        R.drawable.road_trip_typography_logo,
+        R.drawable.monster_attack_typography_logo
     };
 
     @Override
