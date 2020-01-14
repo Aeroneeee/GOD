@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <gradient
-        android:startColor="#9BCCFF"
-        android:endColor="#7AC971"
+        android:startColor="#000066"
+        android:endColor="#FF94D5"
         android:angle="225"/>
 
 </shape>

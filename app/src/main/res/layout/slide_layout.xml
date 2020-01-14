@@ -8,11 +8,12 @@
     <com.varunest.sparkbutton.SparkButton
         android:id="@+id/logoId"
         android:layout_width="match_parent"
-        android:layout_height="446dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:longClickable="true"
         app:sparkbutton_activeImage="@drawable/menu_car_game_logo"
+        app:sparkbutton_animationSpeed=".5"
         app:sparkbutton_iconSize="370dp"
         app:sparkbutton_inActiveImage="@drawable/menu_car_game_logo"
         app:sparkbutton_primaryColor="@color/primary_color"
@@ -22,11 +23,11 @@
     <ImageView
         android:id="@+id/nameId"
         android:layout_width="match_parent"
-        android:layout_height="313dp"
+        android:layout_height="450dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="false"
         android:contentDescription="@null"
-        android:paddingTop="70dp"
+        android:paddingTop="160dp"
         android:scaleType="fitCenter"
         tools:srcCompat="@drawable/road_trip_typography_logo" />
 </RelativeLayout>
