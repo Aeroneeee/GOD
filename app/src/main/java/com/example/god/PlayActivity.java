@@ -3,10 +3,12 @@ package com.example.god;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +30,8 @@ public class PlayActivity extends AppCompatActivity {
 
     private int currentPage;
 
+    Dialog myDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +52,13 @@ public class PlayActivity extends AppCompatActivity {
         addDotsIndicator(0);
         slidePager.addOnPageChangeListener(viewListener);
 
+        myDialog = new Dialog(this);
+
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bounce(settingsBtn);
+                ShowPopup(v);
             }
         });
 
@@ -149,5 +156,20 @@ public class PlayActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
             );
         }
+    }
+
+    public void ShowPopup(View v) {
+        Button okButton;
+        myDialog.setContentView(R.layout.settings_popup);
+        okButton = (Button) myDialog.findViewById(R.id.okButton);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        myDialog.show();
     }
 }
