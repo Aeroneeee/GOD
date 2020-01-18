@@ -1,6 +1,8 @@
 package com.example.god;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +12,15 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.god.view.DrawView;
 import com.varunest.sparkbutton.SparkButton;
 
 public class SliderAdapter extends PagerAdapter {
 
     Context context;
     LayoutInflater layoutInflater;
+
+    PlayActivity playActivity = new PlayActivity();
 
     public SliderAdapter(Context context) {
         this.context = context;
@@ -49,11 +54,19 @@ public class SliderAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.slide_layout, container,false);
 
         ImageView slideImageView = (ImageView) view.findViewById(R.id.nameId);
-        SparkButton slideSparkButton = view.findViewById(R.id.logoId);
+        SparkButton slideSparkButton = (SparkButton) view.findViewById(R.id.logoId);
 
         slideImageView.setImageResource(slide_name_image[position]);
         slideSparkButton.setActiveImage(slide_logo_image[position]);
         slideSparkButton.setInactiveImage(slide_logo_image[position]);
+//
+//        slideSparkButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(SliderAdapter.this, RoadGameActivity.class);
+//
+//            }
+//        });
 
         container.addView(view);
 
