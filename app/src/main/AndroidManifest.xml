@@ -16,6 +16,9 @@
             android:name=".RoadGameActivity"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".GestureActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>

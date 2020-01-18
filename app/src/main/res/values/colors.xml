@@ -9,4 +9,7 @@
 
     <color name="colorWhite">#BE200779</color>
     <color name="colorTransparentWhite">#30000000</color>
+
+    <color name="gestureStrokeColor">#638CFF</color>
+    <color name="uncertainGestureStrokeColor">#FF7171</color>
 </resources>

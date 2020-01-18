@@ -71,7 +71,7 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logo.playAnimation();
-                Intent intent = new Intent(PlayActivity.this, RoadGameActivity.class);
+                Intent intent = new Intent(PlayActivity.this, GestureActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
