@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/view"
-    tools:context=".RoadGameActivity">
+    tools:context=".RoadGameActivity"
+    android:screenOrientation="portrait">
 
 </com.example.god.view.DrawView>
