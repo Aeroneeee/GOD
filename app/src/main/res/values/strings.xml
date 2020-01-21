@@ -12,4 +12,5 @@
     <string name="label_green">Green</string>
     <string name="set_color">Set Color</string>
     <string name="Clear">Clear</string>
+    <string name="DefaultScoreText">000</string>
 </resources>

@@ -7,7 +7,7 @@
     <translate
         android:fromYDelta="-100%p"
         android:toYDelta="0%p"
-        android:duration="2000"
+        android:duration="1000"
         android:fillAfter="true"/>
     <scale
         android:fromXScale="0"
@@ -16,7 +16,7 @@
         android:pivotY="50%"
         android:toXScale="1"
         android:toYScale="1"
-        android:duration="2000"
+        android:duration="1000"
         android:fillAfter="true"/>
 
 </set>

@@ -27,7 +27,6 @@ public class PlayActivity extends AppCompatActivity {
     private ImageButton settingsBtn;
     private SparkButton logo;
     private ImageView name;
-    private Animation zoom_in_move_up, zoom_in_move_down, bounce;
 
 //    private ViewPager slidePager;
 //    private LinearLayout dotsLayout;
@@ -77,9 +76,8 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
 
-        zoom_in_move_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_up);
-        zoom_in_move_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_down);
-        bounce = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce);
+        Animation zoom_in_move_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_up);
+        Animation zoom_in_move_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_down);
 
         logo.startAnimation(zoom_in_move_up);
         name.startAnimation(zoom_in_move_down);
