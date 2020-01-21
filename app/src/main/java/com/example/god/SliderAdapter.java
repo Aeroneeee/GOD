@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.example.god.view.DrawView;
 import com.varunest.sparkbutton.SparkButton;
 
 public class SliderAdapter extends PagerAdapter {

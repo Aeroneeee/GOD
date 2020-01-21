@@ -67,7 +67,6 @@
         android:layout_marginBottom="-150dp"
         android:clickable="true"
         android:longClickable="true"
-        android:onClick="SparkButtonClickEvent"
         app:sparkbutton_activeImage="@drawable/menu_car_game_logo"
         app:sparkbutton_animationSpeed=".5"
         app:sparkbutton_iconSize="370dp"

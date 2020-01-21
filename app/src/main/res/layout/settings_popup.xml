@@ -4,10 +4,11 @@
     android:layout_width="350dp"
     android:layout_height="450dp"
     android:layout_gravity="center"
-    android:background="#5E5E5E"
+    android:background="#3F51B5"
     android:baselineAligned="false"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:radius="30dp">
 
     <Button
         android:id="@+id/okButton"

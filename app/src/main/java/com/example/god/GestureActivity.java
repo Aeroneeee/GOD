@@ -4,9 +4,11 @@ import android.content.Context;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
-//import android.support.v7.app.AlertDialog;
-//import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,8 +22,7 @@ public class GestureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gesture_view);
-
-        setTitle("dev2qa.com - Android Custom Gesture Example.");
+        fullscreen();
 
         Context context = getApplicationContext();
 
@@ -34,16 +35,14 @@ public class GestureActivity extends AppCompatActivity {
         gestureOverlayView.addOnGesturePerformedListener(gesturePerformListener);
     }
 
-    /* Initialise class or instance variables. */
-    private void init(Context context)
-    {
-        if(gestureLibrary == null)
-        {
-            // Load custom gestures from gesture.txt file.
+    private void init(Context context) {
+
+        if(gestureLibrary == null) {
+
             gestureLibrary = GestureLibraries.fromRawResource(context, R.raw.gesture);
 
-            if(!gestureLibrary.load())
-            {
+            if(!gestureLibrary.load()) {
+
                 AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                 alertDialog.setMessage("Custom gesture file load failed.");
                 alertDialog.show();
@@ -52,9 +51,41 @@ public class GestureActivity extends AppCompatActivity {
             }
         }
 
-        if(gestureOverlayView == null)
-        {
+        if(gestureOverlayView == null) {
             gestureOverlayView = (GestureOverlayView)findViewById(R.id.gesture_overlay_view);
         }
     }
+
+    private void fullscreen() {
+        View decorView = getWindow().getDecorView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+            );
+        }
+    }
+
+    Toast mToast = null;
+
+    CountDownTimer timer = new CountDownTimer(4000, 1000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(getApplicationContext(), "Start in:" + millisUntilFinished/1000, Toast.LENGTH_SHORT);
+            mToast.show();
+        }
+
+        @Override
+        public void onFinish() {
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(getApplicationContext(), "Go!", Toast.LENGTH_SHORT);
+            mToast.show();
+        }
+    }.start();
 }

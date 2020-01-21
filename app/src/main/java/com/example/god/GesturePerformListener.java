@@ -26,21 +26,18 @@ public class GesturePerformListener implements GestureOverlayView.OnGesturePerfo
 
         int size = predictionList.size();
 
-        if(size > 0)
-        {
+        if(size > 0) {
             StringBuffer messageBuffer = new StringBuffer();
 
             // Get the first prediction.
             Prediction firstPrediction = predictionList.get(0);
 
             /* Higher score higher gesture match. */
-            if(firstPrediction.score > 5)
-            {
+            if(firstPrediction.score > 5) {
                 String action = firstPrediction.name;
 
-                messageBuffer.append("Your gesture match " + action + " " + firstPrediction.score);
-            }else
-            {
+                messageBuffer.append("Your gesture match " + action + " with the score of " + firstPrediction.score);
+            } else {
                 messageBuffer.append("Your gesture do not match any predefined gestures.");
             }
 

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void fullscreen(){
+    public void fullscreen(){
         View decorView = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             decorView.setSystemUiVisibility(

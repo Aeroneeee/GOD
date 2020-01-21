@@ -13,9 +13,6 @@
             android:name=".PlayActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".RoadGameActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".GestureActivity"
             android:screenOrientation="portrait"></activity>
         <activity

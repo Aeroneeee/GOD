@@ -5,12 +5,17 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +26,9 @@ public class PlayActivity extends AppCompatActivity {
 
     private ImageButton settingsBtn;
     private SparkButton logo;
+    private ImageView name;
+    private Animation zoom_in_move_up, zoom_in_move_down, bounce;
+
 //    private ViewPager slidePager;
 //    private LinearLayout dotsLayout;
 //
@@ -44,6 +52,7 @@ public class PlayActivity extends AppCompatActivity {
 
         settingsBtn = findViewById(R.id.settingsBtnId);
         logo = findViewById(R.id.logoId);
+        name = findViewById(R.id.nameId);
 
 //        slidePager = findViewById(R.id.slidePagerId);
 //        dotsLayout = findViewById(R.id.dotsLayoutId);
@@ -57,7 +66,8 @@ public class PlayActivity extends AppCompatActivity {
 //        addDotsIndicator(0);
 //        slidePager.addOnPageChangeListener(viewListener);
 
-        myDialog = new Dialog(this);
+        myDialog = new Dialog(this, R.style.PauseDialog);
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +76,13 @@ public class PlayActivity extends AppCompatActivity {
                 ShowPopup(v);
             }
         });
+
+        zoom_in_move_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_up);
+        zoom_in_move_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_down);
+        bounce = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce);
+
+        logo.startAnimation(zoom_in_move_up);
+        name.startAnimation(zoom_in_move_down);
 
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
