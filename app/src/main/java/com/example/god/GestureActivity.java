@@ -1,6 +1,7 @@
 package com.example.god;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -32,14 +33,22 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
 
     private double currentScore = 0, totalScore = 0;
 
-    private TextView scoreText;
-    private ImageButton pauseButton;
+    private TextView scoreText, timerText;
+    private ImageButton pauseButton, resumeButton;
 
     private String[] sign = {"left", "right", "winding"};
 
     final Random random = new Random();
 
     private int r = random.nextInt(3);
+    private int timeRemaining;
+
+    private boolean isPaused = false;
+
+    private CountDownTimer timer;
+
+    private long millisInFuture = 10000; //10 seconds
+    private long countDownInterval = 1000; //1 second
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,39 +57,106 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
         fullscreen();
 
         scoreText = findViewById(R.id.scoreText);
+        timerText = findViewById(R.id.timerText);
+
         pauseButton = findViewById(R.id.pauseButton);
-        timer.start();
+        resumeButton = findViewById(R.id.resumeButton);
+
+        //Ready countdown
+        new CountDownTimer(3000, 1000) {
+            Toast mToast = null;
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (mToast != null) mToast.cancel();
+                mToast = Toast.makeText(getApplicationContext(), "" + (millisUntilFinished / 1000) + 1, Toast.LENGTH_SHORT);
+                mToast.show();
+            }
+
+            @Override
+            public void onFinish() {
+                if (mToast != null) mToast.cancel();
+                mToast = Toast.makeText(getApplicationContext(), "Go!", Toast.LENGTH_SHORT);
+                mToast.show();
+
+                init(getApplicationContext());
+
+                Toast.makeText(getApplicationContext(), "Draw the " + sign[r] + " sign", Toast.LENGTH_LONG).show();
+
+            }
+        }.start();
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                isPaused = true;
+            }
+        });
+
+        resumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                isPaused = false;
+
+                timer = new CountDownTimer(timeRemaining,countDownInterval){
+                    public void onTick(long millisUntilFinished){
+                        //do something in every tick
+                        if(isPaused)
+                        {
+                            //If the user request to paused the
+                            //CountDownTimer we will cancel the current instance
+                            cancel();
+                        }
+                        else {
+                            //Display the remaining seconds to app interface
+                            //1 second = 1000 milliseconds
+                            //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
+
+                            StringBuilder timerStr = new StringBuilder();
+                            timerStr.append(Math.round(millisUntilFinished / 1000));
+                            timerText.setText(timerStr);
+
+                            //Put count down timer remaining time in a variable
+                            timeRemaining = (int) millisUntilFinished;
+                        }
+                    }
+                    public void onFinish(){
+                        Toast.makeText(getApplicationContext(), "Game over !!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+                    }
+                }.start();
+            }
+        });
+
+
+        //Initialize a new CountDownTimer instance
+        timer = new CountDownTimer(millisInFuture,countDownInterval){
+            public void onTick(long millisUntilFinished){
+                //do something in every tick
+                if(isPaused)
+                {
+                    //If the user request to paused the
+                    //CountDownTimer we will cancel the current instance
+                    cancel();
+                }
+                else {
+                    //Display the remaining seconds to app interface
+                    //1 second = 1000 milliseconds
+                    //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
+
+                    StringBuilder timerStr = new StringBuilder();
+                    timerStr.append(Math.round(millisUntilFinished / 1000));
+                    timerText.setText(timerStr);
+
+                    //Put count down timer remaining time in a variable
+                    timeRemaining = (int) millisUntilFinished;
+                }
+            }
+            public void onFinish(){
+                Toast.makeText(getApplicationContext(), "Game over !!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+            }
+        }.start();
+
     }
-
-    //Ready countdown
-    CountDownTimer timer = new CountDownTimer(3000, 1000) {
-        Toast mToast = null;
-        @Override
-        public void onTick(long millisUntilFinished) {
-            if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(getApplicationContext(), ""+(millisUntilFinished/1000) + 1, Toast.LENGTH_SHORT);
-            mToast.show();
-        }
-
-        @Override
-        public void onFinish() {
-            if (mToast != null) mToast.cancel();
-            mToast = Toast.makeText(getApplicationContext(), "Go!", Toast.LENGTH_SHORT);
-            mToast.show();
-
-            Context context = getApplicationContext();
-            init(context);
-
-            Toast.makeText(getApplicationContext(), "Draw the " + sign[r] + " sign", Toast.LENGTH_LONG).show();
-
-//            pauseButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                }
-//            });
-        }
-    };
 
     private void init(Context context) {
 
@@ -145,6 +221,33 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
             if(firstPrediction.score > 5) {
 
                 if (this.sign[r].equals(this.action)) {
+                    timer.cancel();
+                    timer = new CountDownTimer(millisInFuture,countDownInterval){
+                        public void onTick(long millisUntilFinished){
+                            //do something in every tick
+                            if(isPaused)
+                            {
+                                //If the user request to paused the
+                                //CountDownTimer we will cancel the current instance
+                                cancel();
+                            }
+                            else {
+                                //Display the remaining seconds to app interface
+                                //1 second = 1000 milliseconds
+                                //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
+
+                                StringBuilder timerStr = new StringBuilder();
+                                timerStr.append(Math.round(millisUntilFinished / 1000));
+                                timerText.setText(timerStr);
+
+                                //Put count down timer remaining time in a variable
+                                timeRemaining = (int) millisUntilFinished;
+                            }
+                        }
+                        public void onFinish(){
+                            Toast.makeText(getApplicationContext(), "Game over !!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+                        }
+                    }.start();
 
                     r = random.nextInt(3);
 
