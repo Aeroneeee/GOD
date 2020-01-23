@@ -13,4 +13,6 @@
     <string name="set_color">Set Color</string>
     <string name="Clear">Clear</string>
     <string name="DefaultScoreText">000</string>
+    <string name="resume">Resume</string>
+    <string name="restart">Restart</string>
 </resources>

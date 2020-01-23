@@ -16,6 +16,8 @@
             android:name=".GestureActivity"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".PausePopup"></activity>
+        <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
