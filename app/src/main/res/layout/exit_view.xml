@@ -17,10 +17,10 @@
 
     <ImageButton
         android:id="@+id/yesButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="190dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="180dp"
         android:background="@android:color/transparent"
         android:contentDescription="@null"
         android:scaleType="fitCenter"
@@ -28,10 +28,10 @@
 
     <ImageButton
         android:id="@+id/noButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="230dp"
-        android:layout_marginTop="190dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="175dp"
+        android:layout_marginTop="180dp"
         android:background="@android:color/transparent"
         android:contentDescription="@null"
         android:scaleType="fitCenter"
