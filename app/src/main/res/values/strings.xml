@@ -12,7 +12,9 @@
     <string name="label_green">Green</string>
     <string name="set_color">Set Color</string>
     <string name="Clear">Clear</string>
-    <string name="DefaultScoreText">000</string>
+    <string name="DefaultScoreText">0</string>
     <string name="resume">Resume</string>
     <string name="restart">Restart</string>
+    <string name="drawThisSign">Draw This Sign</string>
+    <string name="timer">0</string>
 </resources>

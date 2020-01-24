@@ -40,7 +40,7 @@ public class PlayActivity extends AppCompatActivity {
 //
 //    private int currentPage;
 
-    Dialog myDialog;
+    Dialog myDialog, quitDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,11 @@ public class PlayActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this, R.style.PauseDialog);
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        quitDialog = new Dialog(this, R.style.PauseDialog);
+        quitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        quitDialog.setContentView(R.layout.exit_view);
+
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,5 +208,31 @@ public class PlayActivity extends AppCompatActivity {
         });
 
         myDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        final ImageButton yesButton = (ImageButton) quitDialog.findViewById(R.id.yesButton);
+        final ImageButton noButton = (ImageButton) quitDialog.findViewById(R.id.noButton);
+
+        quitDialog.show();
+
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bounce(yesButton);
+                finish();
+                System.exit(0);
+            }
+        });
+
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bounce(noButton);
+                quitDialog.dismiss();
+            }
+        });
     }
 }

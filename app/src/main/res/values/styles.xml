@@ -15,7 +15,7 @@
 
     <style name="PauseDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/bounce</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
     </style>
 
 </resources>

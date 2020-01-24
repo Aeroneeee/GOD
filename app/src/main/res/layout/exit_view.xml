@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="343dp"
+        android:contentDescription="@null"
+        android:foregroundGravity="center_vertical"
+        android:paddingStart="1dp"
+        android:paddingEnd="30dp"
+        app:srcCompat="@drawable/quit_game" />
+
+    <ImageButton
+        android:id="@+id/yesButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="190dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/quit_yes" />
+
+    <ImageButton
+        android:id="@+id/noButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="230dp"
+        android:layout_marginTop="190dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/quit_no" />
+
+
+</RelativeLayout>
