@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,8 +46,8 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
     private String[] sign = {"left", "right", "u-turn", "overtake"};
 
     final Random random = new Random();
-
     private int r = random.nextInt(3);
+
     public int timeRemaining;
 
     public boolean isPaused = false;
@@ -78,19 +79,6 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
         gesture_overlay_view.setBackgroundResource(R.drawable.straight_animation);
 
         anim = (AnimationDrawable)gesture_overlay_view.getBackground();
-
-        //Game over POP UP
-        gameOverDialog = new Dialog(this, R.style.PauseDialog);
-        gameOverDialog.setContentView(R.layout.gameover_view);
-        Objects.requireNonNull(gameOverDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        gameOverDialog.setCanceledOnTouchOutside(false);
-        gameOverDialog.setCancelable(false);
-
-        pauseDialog = new Dialog(this, R.style.PauseDialog);
-        pauseDialog.setContentView(R.layout.pause_view);
-        Objects.requireNonNull(pauseDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        pauseDialog.setCanceledOnTouchOutside(false);
-        pauseDialog.setCancelable(false);
 
         //Ready countdown
         new CountDownTimer(5000, 1000) {
@@ -145,6 +133,27 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
                 }.start();
             }
         }.start();
+
+        gameOverDialog = new Dialog(this, R.style.PauseDialog);
+        gameOverDialog.setContentView(R.layout.gameover_view);
+        Objects.requireNonNull(gameOverDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        gameOverDialog.setCanceledOnTouchOutside(false);
+        gameOverDialog.setCancelable(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(gameOverDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        gameOverDialog.getWindow().setAttributes(lp);
+
+        pauseDialog = new Dialog(this, R.style.PauseDialog);
+        pauseDialog.setContentView(R.layout.pause_view);
+        Objects.requireNonNull(pauseDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        pauseDialog.setCanceledOnTouchOutside(false);
+        pauseDialog.setCancelable(false);
+        lp.copyFrom(pauseDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        pauseDialog.getWindow().setAttributes(lp);
 
         pauseButton = findViewById(R.id.pauseButton);
 
