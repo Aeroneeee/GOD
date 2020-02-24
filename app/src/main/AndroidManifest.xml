@@ -11,10 +11,14 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".PlayActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GestureActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PausePopup"
+            android:theme="@style/Theme.Transparent"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
