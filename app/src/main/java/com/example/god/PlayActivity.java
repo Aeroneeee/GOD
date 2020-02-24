@@ -68,12 +68,14 @@ public class PlayActivity extends AppCompatActivity {
 //        addDotsIndicator(0);
 //        slidePager.addOnPageChangeListener(viewListener);
 
-        settingsDialog = new Dialog(this, R.style.PauseDialog);
-        settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         quitDialog = new Dialog(this, R.style.PauseDialog);
-        quitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(quitDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         quitDialog.setContentView(R.layout.exit_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(quitDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        quitDialog.getWindow().setAttributes(lp);
 
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
@@ -205,8 +207,8 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        final ImageButton yesButton = (ImageButton) quitDialog.findViewById(R.id.yesButton);
-        final ImageButton noButton = (ImageButton) quitDialog.findViewById(R.id.noButton);
+        final ImageButton yesButton = quitDialog.findViewById(R.id.yesButton);
+        final ImageButton noButton = quitDialog.findViewById(R.id.noButton);
 
         quitDialog.show();
 
