@@ -158,74 +158,74 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
 
                 pauseDialog.show();
 
-                final ImageButton resumeButton = pauseDialog.findViewById(R.id.resumeButton);
-                final ImageButton restartButton = pauseDialog.findViewById(R.id.restartButton);
-                final ImageButton quitButton = pauseDialog.findViewById(R.id.quitButton);
-
-                resumeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v){
-                        bounce(resumeButton);
-                        anim.start();
-                        pauseDialog.dismiss();
-                        fullscreen();
-                        isPaused = false;
-                        timer = new CountDownTimer(timeRemaining,countDownInterval){
-                            public void onTick(long millisUntilFinished){
-                                //do something in every tick
-                                if(isPaused) {
-                                    //If the user request to paused the
-                                    //CountDownTimer we will cancel the current instance
-                                    cancel();
-                                } else {
-                                    //Display the remaining seconds to app interface
-                                    //1 second = 1000 milliseconds
-                                    //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
-
-                                    StringBuilder timerStr = new StringBuilder();
-                                    timerStr.append(Math.round(millisUntilFinished / 1000));
-                                    timerText.setText(timerStr);
-
-                                    //Put count down timer remaining time in a variable
-                                    timeRemaining = (int) millisUntilFinished;
-                                }
-                            }
-                            public void onFinish(){
-                                //Toast.makeText(getApplicationContext(), "Game over !!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
-//                        signText.setText("GAME OVER");
-//                        anim.stop();
-                                gameOver();
-                            }
-                        }.start();
-                    }
-                });
-
-                restartButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        bounce(restartButton);
-                        pauseDialog.dismiss();
-                        Intent intent = getIntent();
-                        finish();
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    }
-                });
-
-                quitButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        bounce(quitButton);
-//                Intent intent = new Intent(GestureActivity.this, PlayActivity.class);
-//                startActivity(intent);
-                        System.exit(0);
-
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    }
-                });
             }
         });
 
+        final ImageButton resumeButton = pauseDialog.findViewById(R.id.resumeButton);
+        final ImageButton restartButton = pauseDialog.findViewById(R.id.restartButton);
+        final ImageButton quitButton = pauseDialog.findViewById(R.id.quitButton);
+
+        resumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                bounce(resumeButton);
+                anim.start();
+                pauseDialog.dismiss();
+                fullscreen();
+                isPaused = false;
+                timer = new CountDownTimer(timeRemaining,countDownInterval){
+                    public void onTick(long millisUntilFinished){
+                        //do something in every tick
+                        if(isPaused) {
+                            //If the user request to paused the
+                            //CountDownTimer we will cancel the current instance
+                            cancel();
+                        } else {
+                            //Display the remaining seconds to app interface
+                            //1 second = 1000 milliseconds
+                            //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
+
+                            StringBuilder timerStr = new StringBuilder();
+                            timerStr.append(Math.round(millisUntilFinished / 1000));
+                            timerText.setText(timerStr);
+
+                            //Put count down timer remaining time in a variable
+                            timeRemaining = (int) millisUntilFinished;
+                        }
+                    }
+                    public void onFinish(){
+                        //Toast.makeText(getApplicationContext(), "Game over !!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+//                        signText.setText("GAME OVER");
+//                        anim.stop();
+                        gameOver();
+                    }
+                }.start();
+            }
+        });
+
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bounce(restartButton);
+                pauseDialog.dismiss();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bounce(quitButton);
+//                Intent intent = new Intent(GestureActivity.this, PlayActivity.class);
+//                startActivity(intent);
+                System.exit(0);
+
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
     }
 
     private void init(Context context) {
