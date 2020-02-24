@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.varunest.sparkbutton.SparkButton;
+
+import java.util.Objects;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -40,7 +43,7 @@ public class PlayActivity extends AppCompatActivity {
 //
 //    private int currentPage;
 
-    Dialog myDialog, quitDialog;
+    Dialog settingsDialog, quitDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +68,8 @@ public class PlayActivity extends AppCompatActivity {
 //        addDotsIndicator(0);
 //        slidePager.addOnPageChangeListener(viewListener);
 
-        myDialog = new Dialog(this, R.style.PauseDialog);
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        settingsDialog = new Dialog(this, R.style.PauseDialog);
+        settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         quitDialog = new Dialog(this, R.style.PauseDialog);
         quitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -77,7 +80,9 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bounce(settingsBtn);
-                ShowPopup(v);
+                Intent intent = new Intent(PlayActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -195,20 +200,7 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
 
-    public void ShowPopup(View v) {
-        Button okButton;
-        myDialog.setContentView(R.layout.settings_popup);
-        okButton = (Button) myDialog.findViewById(R.id.okButton);
 
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDialog.dismiss();
-            }
-        });
-
-        myDialog.show();
-    }
 
     @Override
     public void onBackPressed() {

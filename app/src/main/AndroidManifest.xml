@@ -13,6 +13,9 @@
             android:name=".PlayActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".GestureActivity"
             android:screenOrientation="portrait" />
         <activity
