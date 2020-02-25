@@ -31,19 +31,19 @@ public class PlayActivity extends AppCompatActivity {
     private SparkButton logo;
     private ImageView name;
 
-//    private ViewPager slidePager;
-//    private LinearLayout dotsLayout;
-//
-//    private TextView[] dots;
-//
-//    private SliderAdapter sliderAdapter;
-//
-//    private ImageButton nextButton;
-//    private ImageButton previousButton;
-//
-//    private int currentPage;
+    private ViewPager slidePager;
+    private LinearLayout dotsLayout;
 
-    Dialog settingsDialog, quitDialog;
+    private TextView[] dots;
+
+    private SliderAdapter sliderAdapter;
+
+    private ImageButton nextButton;
+    private ImageButton previousButton;
+
+    private int currentPage;
+
+    Dialog quitDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +56,26 @@ public class PlayActivity extends AppCompatActivity {
         logo = findViewById(R.id.logoId);
         name = findViewById(R.id.nameId);
 
-//        slidePager = findViewById(R.id.slidePagerId);
-//        dotsLayout = findViewById(R.id.dotsLayoutId);
+        slidePager = findViewById(R.id.slidePagerId);
+        dotsLayout = findViewById(R.id.dotsLayoutId);
 
-//        nextButton = findViewById(R.id.nextButtonId);
-//        previousButton = findViewById(R.id.previousButtonId);
+        nextButton = findViewById(R.id.nextButtonId);
+        previousButton = findViewById(R.id.previousButtonId);
 
-//        sliderAdapter = new SliderAdapter(this);
-//        slidePager.setAdapter(sliderAdapter);
+        sliderAdapter = new SliderAdapter(this);
+        slidePager.setAdapter(sliderAdapter);
 
-//        addDotsIndicator(0);
-//        slidePager.addOnPageChangeListener(viewListener);
-
-        settingsDialog = new Dialog(this, R.style.PauseDialog);
-        settingsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        addDotsIndicator(0);
+        slidePager.addOnPageChangeListener(viewListener);
 
         quitDialog = new Dialog(this, R.style.PauseDialog);
-        quitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(quitDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         quitDialog.setContentView(R.layout.exit_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(quitDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        quitDialog.getWindow().setAttributes(lp);
 
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
@@ -86,37 +88,37 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
 
-        Animation zoom_in_move_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_up);
-        Animation zoom_in_move_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_down);
+//        Animation zoom_in_move_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_up);
+//        Animation zoom_in_move_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_down);
+//
+//        logo.startAnimation(zoom_in_move_up);
+//        name.startAnimation(zoom_in_move_down);
 
-        logo.startAnimation(zoom_in_move_up);
-        name.startAnimation(zoom_in_move_down);
+//        logo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                logo.playAnimation();
+//                Intent intent = new Intent(PlayActivity.this, GestureActivity.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//            }
+//        });
 
-        logo.setOnClickListener(new View.OnClickListener() {
+
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logo.playAnimation();
-                Intent intent = new Intent(PlayActivity.this, GestureActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                slidePager.setCurrentItem(currentPage + 1);
             }
         });
 
-
-//
-//        nextButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                slidePager.setCurrentItem(currentPage + 1);
-//            }
-//        });
-//
-//        previousButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                slidePager.setCurrentItem(currentPage - 1);
-//            }
-//        });
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slidePager.setCurrentItem(currentPage - 1);
+            }
+        });
     }
 
     private void bounce(final ImageButton btn){
@@ -129,62 +131,62 @@ public class PlayActivity extends AppCompatActivity {
         });
     }
 
-//    public void addDotsIndicator(int position) {
-//
-//        dots = new TextView[2];
-//        dotsLayout.removeAllViews();
-//
-//        for (int i = 0; i < dots.length; i++) {
-//
-//            dots[i] = new TextView(this);
-//            dots[i].setText(Html.fromHtml("&#8226;"));
-//            dots[i].setTextSize(40);
-//            dots[i].setTextColor(getResources().getColor(R.color.colorTransparentWhite));
-//
-//            dotsLayout.addView(dots[i]);
-//        }
-//
-//        if (dots.length > 0){
-//            dots[position].setTextColor(getResources().getColor(R.color.colorWhite));
-//        }
-//
-//    }
+    public void addDotsIndicator(int position) {
 
-//    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
-//        @Override
-//        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//        }
-//
-//        @Override
-//        public void onPageSelected(int position) {
-//
-//            addDotsIndicator(position);
-//            currentPage = position;
-//
-//            if (position == 0) {
-//                nextButton.setEnabled(true);
-//                previousButton.setEnabled(false);
-//                nextButton.setVisibility(View.VISIBLE);
-//                previousButton.setVisibility(View.INVISIBLE);
-//            } else if (position == dots.length - 1) {
-//                nextButton.setEnabled(false);
-//                previousButton.setEnabled(true);
-//                nextButton.setVisibility(View.INVISIBLE);
-//                previousButton.setVisibility(View.VISIBLE);
-//            } else {
-//                nextButton.setEnabled(true);
-//                previousButton.setEnabled(true);
-//                nextButton.setVisibility(View.VISIBLE);
-//                previousButton.setVisibility(View.VISIBLE);
-//            }
-//        }
-//
-//        @Override
-//        public void onPageScrollStateChanged(int state) {
-//
-//        }
-//    };
+        dots = new TextView[2];
+        dotsLayout.removeAllViews();
+
+        for (int i = 0; i < dots.length; i++) {
+
+            dots[i] = new TextView(this);
+            dots[i].setText(Html.fromHtml("&#8226;"));
+            dots[i].setTextSize(40);
+            dots[i].setTextColor(getResources().getColor(R.color.colorTransparentWhite));
+
+            dotsLayout.addView(dots[i]);
+        }
+
+        if (dots.length > 0){
+            dots[position].setTextColor(getResources().getColor(R.color.colorWhite));
+        }
+
+    }
+
+    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+            addDotsIndicator(position);
+            currentPage = position;
+
+            if (position == 0) {
+                nextButton.setEnabled(true);
+                previousButton.setEnabled(false);
+                nextButton.setVisibility(View.VISIBLE);
+                previousButton.setVisibility(View.INVISIBLE);
+            } else if (position == dots.length - 1) {
+                nextButton.setEnabled(false);
+                previousButton.setEnabled(true);
+                nextButton.setVisibility(View.INVISIBLE);
+                previousButton.setVisibility(View.VISIBLE);
+            } else {
+                nextButton.setEnabled(true);
+                previousButton.setEnabled(true);
+                nextButton.setVisibility(View.VISIBLE);
+                previousButton.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     private void fullscreen() {
         View decorView = getWindow().getDecorView();
@@ -205,8 +207,8 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        final ImageButton yesButton = (ImageButton) quitDialog.findViewById(R.id.yesButton);
-        final ImageButton noButton = (ImageButton) quitDialog.findViewById(R.id.noButton);
+        final ImageButton yesButton = quitDialog.findViewById(R.id.yesButton);
+        final ImageButton noButton = quitDialog.findViewById(R.id.noButton);
 
         quitDialog.show();
 

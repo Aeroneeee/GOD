@@ -16,10 +16,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,29 +29,22 @@ import java.util.Random;
 
 public class GestureActivity extends AppCompatActivity implements GestureOverlayView.OnGesturePerformedListener {
 
-    private GestureOverlayView gestureOverlayView;
-
     private GestureLibrary gestureLibrary = null;
 
-    private String action;
-
-    private double currentScore = 0, totalScore = 0;
+    private double totalScore = 0;
 
     private TextView scoreText;
     public TextView timerText;
-    private ImageButton pauseButton;
     private ImageView trafficLight;
 
     private String[] sign = {"left", "right", "u-turn", "overtake"};
 
     final Random random = new Random();
-
     private int r = random.nextInt(3);
+
     public int timeRemaining;
 
     public boolean isPaused = false;
-
-    public CountDownTimer timer;
 
     private long millisInFuture = 10000; //10 seconds
     public short countDownInterval = 1000; //1 second
@@ -79,19 +72,6 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
 
         anim = (AnimationDrawable)gesture_overlay_view.getBackground();
 
-        //Game over POP UP
-        gameOverDialog = new Dialog(this, R.style.PauseDialog);
-        gameOverDialog.setContentView(R.layout.gameover_view);
-        Objects.requireNonNull(gameOverDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        gameOverDialog.setCanceledOnTouchOutside(false);
-        gameOverDialog.setCancelable(false);
-
-        pauseDialog = new Dialog(this, R.style.PauseDialog);
-        pauseDialog.setContentView(R.layout.pause_view);
-        Objects.requireNonNull(pauseDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        pauseDialog.setCanceledOnTouchOutside(false);
-        pauseDialog.setCancelable(false);
-
         //Ready countdown
         new CountDownTimer(5000, 1000) {
 
@@ -118,35 +98,32 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
                 init(getApplicationContext());
 
                 //Initialize a new CountDownTimer instance
-                timer = new CountDownTimer(millisInFuture,countDownInterval){
-                    public void onTick(long millisUntilFinished){
-                        //do something in every tick
-                        if(isPaused) {
-                            //If the user request to paused the
-                            //CountDownTimer we will cancel the current instance
-                            cancel();
-                        } else {
-                            //Display the remaining seconds to app interface
-                            //1 second = 1000 milliseconds
-                            //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
-
-                            StringBuilder timerStr = new StringBuilder();
-                            timerStr.append(Math.round(millisUntilFinished / 1000));
-                            timerText.setText(timerStr);
-
-                            //Put count down timer remaining time in a variable
-                            timeRemaining = (int) millisUntilFinished;
-                        }
-                    }
-                    public void onFinish(){
-
-                        gameOver();
-                    }
-                }.start();
+                timer.start();
             }
         }.start();
 
-        pauseButton = findViewById(R.id.pauseButton);
+        gameOverDialog = new Dialog(this, R.style.PauseDialog);
+        gameOverDialog.setContentView(R.layout.gameover_view);
+        Objects.requireNonNull(gameOverDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        gameOverDialog.setCanceledOnTouchOutside(false);
+        gameOverDialog.setCancelable(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(gameOverDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        gameOverDialog.getWindow().setAttributes(lp);
+
+        pauseDialog = new Dialog(this, R.style.PauseDialog);
+        pauseDialog.setContentView(R.layout.pause_view);
+        Objects.requireNonNull(pauseDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        pauseDialog.setCanceledOnTouchOutside(false);
+        pauseDialog.setCancelable(false);
+        lp.copyFrom(pauseDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        pauseDialog.getWindow().setAttributes(lp);
+
+        ImageButton pauseButton = findViewById(R.id.pauseButton);
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,33 +150,7 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
                 pauseDialog.dismiss();
                 fullscreen();
                 isPaused = false;
-                timer = new CountDownTimer(timeRemaining,countDownInterval){
-                    public void onTick(long millisUntilFinished){
-                        //do something in every tick
-                        if(isPaused) {
-                            //If the user request to paused the
-                            //CountDownTimer we will cancel the current instance
-                            cancel();
-                        } else {
-                            //Display the remaining seconds to app interface
-                            //1 second = 1000 milliseconds
-                            //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
-
-                            StringBuilder timerStr = new StringBuilder();
-                            timerStr.append(Math.round(millisUntilFinished / 1000));
-                            timerText.setText(timerStr);
-
-                            //Put count down timer remaining time in a variable
-                            timeRemaining = (int) millisUntilFinished;
-                        }
-                    }
-                    public void onFinish(){
-                        //Toast.makeText(getApplicationContext(), "Game over !!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
-//                        signText.setText("GAME OVER");
-//                        anim.stop();
-                        gameOver();
-                    }
-                }.start();
+                timer.start();
             }
         });
 
@@ -230,7 +181,7 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
 
     private void init(Context context) {
 
-        gestureOverlayView = findViewById(R.id.gesture_overlay_view);
+        GestureOverlayView gestureOverlayView = findViewById(R.id.gesture_overlay_view);
 
         gestureOverlayView.addOnGesturePerformedListener(this);
 
@@ -250,9 +201,6 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
             }
         }
 
-        if(gestureOverlayView == null) {
-            gestureOverlayView = findViewById(R.id.gesture_overlay_view);
-        }
     }
 
     public void fullscreen() {
@@ -280,22 +228,20 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
         int size = predictionList.size();
 
         if(size > 0) {
-            StringBuilder messageBuffer = new StringBuilder();
-
             // Get the first prediction.
             Prediction firstPrediction = predictionList.get(0);
 
-            this.action = firstPrediction.name;
+            String action = firstPrediction.name;
 
-            this.currentScore = firstPrediction.score;
+            double currentScore = firstPrediction.score;
 
             /* Higher score higher gesture match. */
             if(firstPrediction.score > 5) {
 
-                if (this.sign[r].equals(this.action)) {
+                if (this.sign[r].equals(action)) {
 
                     // The variable that will guard the frame number
-                    int timeRemainingNumber = 0;
+//                    int timeRemainingNumber = 0;
 
                     // Get the frame of the animation
 //                    Drawable currentFrame, checkFrame;
@@ -341,32 +287,11 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
 
                     timer.cancel();
 
-                    timer = new CountDownTimer(millisInFuture,countDownInterval){
-                        public void onTick(long millisUntilFinished){
-
-                            if(isPaused) {
-                                //If the user request to pause
-                                //CountDownTimer we will cancel the current instance
-                                cancel();
-                            } else {
-                                StringBuilder timerStr = new StringBuilder();
-                                timerStr.append(Math.round(millisUntilFinished / 1000));
-                                timerText.setText(timerStr);
-
-                                //Put count down timer remaining time in a variable
-                                timeRemaining = (int) millisUntilFinished;
-                            }
-                        }
-                        public void onFinish(){
-
-                            gameOver();
-
-                        }
-                    }.start();
+                    timer.start();
 
                     r = random.nextInt(3);
 
-                    this.totalScore = this.totalScore + this.currentScore;
+                    this.totalScore = this.totalScore + currentScore;
 
                     StringBuilder scoreStr = new StringBuilder();
                     scoreStr.append(Math.round(this.totalScore));
@@ -393,6 +318,33 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
             }
         });
     }
+
+    public CountDownTimer timer = new CountDownTimer(millisInFuture,countDownInterval){
+        public void onTick(long millisUntilFinished){
+            //do something in every tick
+            if(isPaused) {
+                //If the user request to paused the
+                //CountDownTimer we will cancel the current instance
+                cancel();
+            } else {
+                //Display the remaining seconds to app interface
+                //1 second = 1000 milliseconds
+                //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
+
+                StringBuilder timerStr = new StringBuilder();
+                timerStr.append(Math.round(millisUntilFinished / 1000));
+                timerText.setText(timerStr);
+
+                //Put count down timer remaining time in a variable
+                timeRemaining = (int) millisUntilFinished;
+            }
+        }
+        public void onFinish(){
+
+            gameOver();
+
+        }
+    };
 
     public void gameOver(){
         gameOverDialog.show();
