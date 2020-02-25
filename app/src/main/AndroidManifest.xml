@@ -16,6 +16,10 @@
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".MusicService"
+            android:enabled="true"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".GestureActivity"
             android:screenOrientation="portrait" />
         <activity
