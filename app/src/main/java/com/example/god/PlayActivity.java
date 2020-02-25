@@ -82,7 +82,7 @@ public class PlayActivity extends AppCompatActivity {
                 bounce(settingsBtn);
                 Intent intent = new Intent(PlayActivity.this, SettingsActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                overridePendingTransition(R.anim.slide_in_top, R.anim.fade_out);
             }
         });
 

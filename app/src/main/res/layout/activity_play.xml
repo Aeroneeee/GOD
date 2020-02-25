@@ -33,7 +33,6 @@
         android:layout_alignParentEnd="true"
         android:background="#00FFFFFF"
         android:contentDescription="@null"
-        android:onClick="ShowPopup"
         android:scaleType="centerInside"
         app:srcCompat="@drawable/gear" />
 
