@@ -3,9 +3,12 @@ package com.example.god;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -16,10 +19,14 @@ import com.varunest.sparkbutton.SparkButton;
 
 public class SliderAdapter extends PagerAdapter {
 
+    public Context getContext() {
+        return context;
+    }
+
     Context context;
     LayoutInflater layoutInflater;
 
-    PlayActivity playActivity = new PlayActivity();
+//    PlayActivity playActivity = new PlayActivity();
 
     public SliderAdapter(Context context) {
         this.context = context;
@@ -50,22 +57,37 @@ public class SliderAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.slide_layout, container,false);
+        final View view = layoutInflater.inflate(R.layout.slide_layout, container,false);
 
-        ImageView slideImageView = (ImageView) view.findViewById(R.id.nameId);
-        SparkButton slideSparkButton = (SparkButton) view.findViewById(R.id.logoId);
+        ImageView slideImageView = view.findViewById(R.id.nameId);
+        final SparkButton slideSparkButton = view.findViewById(R.id.logoId);
 
         slideImageView.setImageResource(slide_name_image[position]);
         slideSparkButton.setActiveImage(slide_logo_image[position]);
         slideSparkButton.setInactiveImage(slide_logo_image[position]);
-//
-//        slideSparkButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(SliderAdapter.this, RoadGameActivity.class);
-//
-//            }
-//        });
+
+        Animation zoom_in_move_up = AnimationUtils.loadAnimation(context, R.anim.zoom_in_move_up);
+        Animation zoom_in_move_down = AnimationUtils.loadAnimation(context, R.anim.zoom_in_move_down);
+
+        slideSparkButton.startAnimation(zoom_in_move_up);
+        slideImageView.startAnimation(zoom_in_move_down);
+
+        slideSparkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                slideSparkButton.playAnimation();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(getContext(), GestureActivity.class);
+                        context.startActivity(intent);
+                    }
+                }, 700);
+
+            }
+        });
 
         container.addView(view);
 
