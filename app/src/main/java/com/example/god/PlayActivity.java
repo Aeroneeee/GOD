@@ -140,7 +140,7 @@ public class PlayActivity extends AppCompatActivity {
                 Scon, Context.BIND_AUTO_CREATE);
         mIsBound = true;
     }
-    void doUnbindService()
+    private void doUnbindService()
     {
         if(mIsBound)
         {

@@ -12,13 +12,14 @@ import androidx.annotation.Nullable;
 
 
 
-public class MusicService extends Service {
+public class MusicService extends Service implements MediaPlayer.OnErrorListener {
 
-    private final IBinder mainBinder = new ServiceBinder();
+    private final IBinder mBinder = new ServiceBinder();
     private int length = 0;
     MediaPlayer mainPlayer;
 
     public MusicService() { }
+
 
     public class ServiceBinder extends Binder {
         MusicService getService() {
@@ -27,7 +28,7 @@ public class MusicService extends Service {
     }
     @Override
     public IBinder onBind(Intent arg0) {
-        return mainBinder;
+        return mBinder;
     }
 //
 //    @Nullable
@@ -40,13 +41,24 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        mainPlayer = MediaPlayer.create(this, R.raw.main_bg_music);
+        mainPlayer = MediaPlayer.create(this, R.raw.mainbackgroundmusic);
+        mainPlayer.setOnErrorListener(this);
 
 
         if (mainPlayer != null) {
             mainPlayer.setLooping(true);
-//            mainPlayer.setVolume(50, 50);
+            mainPlayer.setVolume(50, 50);
         }
+
+
+        mainPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+
+                onError(mainPlayer, what, extra);
+                return true;
+            }
+        });
 
     }
 
@@ -75,6 +87,16 @@ public class MusicService extends Service {
             }
 
     }
+    public void startMusic(){
+        mainPlayer = MediaPlayer.create(this,R.raw.mainbackgroundmusic);
+        mainPlayer.setOnErrorListener(this);
+
+        if (mainPlayer != null){
+            mainPlayer.setLooping((true));
+            mainPlayer.setVolume(50, 50);
+            mainPlayer.start();
+        }
+    }
 
 
     public void stopMusic() {
@@ -96,6 +118,19 @@ public class MusicService extends Service {
                 mainPlayer = null;
             }
         }
+    }
+
+    public boolean onError (MediaPlayer mp, int what, int extra ){
+        Toast.makeText(this, "Music Player failed." , Toast.LENGTH_SHORT).show();
+        if (mainPlayer != null){
+            try{
+                mainPlayer.stop();
+                mainPlayer.release();
+            } finally {
+                mainPlayer = null;
+            }
+        }
+        return false;
     }
 
 //    @Override

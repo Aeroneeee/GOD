@@ -15,7 +15,7 @@
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
-        <activity
+        <service
             android:name=".MusicService"
             android:enabled="true"
             android:screenOrientation="portrait" />
