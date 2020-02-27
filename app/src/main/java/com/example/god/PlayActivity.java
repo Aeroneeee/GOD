@@ -49,6 +49,8 @@ public class PlayActivity extends AppCompatActivity {
 
     private int currentPage;
 
+    HomeWatcher mHomeWatcher;
+
     Dialog quitDialog;
 
     @Override
@@ -61,6 +63,24 @@ public class PlayActivity extends AppCompatActivity {
         Intent music = new Intent();
         music.setClass(this, MusicService.class);
         startService(music);
+
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+            @Override
+            public void onHomeLongPressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
+
 
 //        startService(new Intent(this, MusicService.class));
         fullscreen();
