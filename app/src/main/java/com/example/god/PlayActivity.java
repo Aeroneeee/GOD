@@ -172,7 +172,7 @@ public class PlayActivity extends AppCompatActivity {
     //Bind/Unbind music service
     private boolean mIsBound = false;
     private MusicService mServ;
-    private ServiceConnection Scon =new ServiceConnection(){
+    private ServiceConnection Scon = new ServiceConnection(){
 
         public void onServiceConnected(ComponentName name, IBinder
                 binder) {

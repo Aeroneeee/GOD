@@ -81,7 +81,7 @@ public class SliderAdapter extends PagerAdapter {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(getContext(), GestureActivity.class);
+                        Intent intent = new Intent(getContext(), RoadTripActivity.class);
                         context.startActivity(intent);
                     }
                 }, 700);
