@@ -102,6 +102,7 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
             }
         }.start();
 
+        //Game Over PopUp
         gameOverDialog = new Dialog(this, R.style.PauseDialog);
         gameOverDialog.setContentView(R.layout.gameover_view);
         Objects.requireNonNull(gameOverDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -113,6 +114,7 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         gameOverDialog.getWindow().setAttributes(lp);
 
+        //Pause PopUp
         pauseDialog = new Dialog(this, R.style.PauseDialog);
         pauseDialog.setContentView(R.layout.pause_view);
         Objects.requireNonNull(pauseDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -128,7 +130,6 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(GestureActivity.this, PausePopup.class));
                 isPaused = true;
 
                 anim.stop();
@@ -306,7 +307,11 @@ public class GestureActivity extends AppCompatActivity implements GestureOverlay
 
     @Override
     public void onBackPressed() {
-//        startActivity(new Intent(GestureActivity.this, PausePopup.class));
+        isPaused = true;
+
+        anim.stop();
+
+        pauseDialog.show();
     }
 
     public void bounce(final ImageButton btn){

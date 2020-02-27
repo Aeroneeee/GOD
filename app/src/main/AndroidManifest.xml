@@ -16,7 +16,7 @@
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GestureActivity"
+            android:name=".RoadTripActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"

@@ -48,6 +48,7 @@
     <item android:drawable="@drawable/l0096" android:duration="33"/>
     <item android:drawable="@drawable/l0097" android:duration="33"/>
     <item android:drawable="@drawable/l0098" android:duration="33"/>
+    <item android:drawable="@drawable/l0099" android:duration="33"/>
     <item android:drawable="@drawable/l0100" android:duration="33"/>
     <item android:drawable="@drawable/l0101" android:duration="33"/>
     <item android:drawable="@drawable/l0102" android:duration="33"/>

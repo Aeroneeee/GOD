@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/o0030" android:duration="33"/>
+    <item android:drawable="@drawable/o0031" android:duration="33"/>
+    <item android:drawable="@drawable/o0032" android:duration="33"/>
+    <item android:drawable="@drawable/o0034" android:duration="33"/>
+    <item android:drawable="@drawable/o0035" android:duration="33"/>
+    <item android:drawable="@drawable/o0036" android:duration="33"/>
+    <item android:drawable="@drawable/o0037" android:duration="33"/>
+    <item android:drawable="@drawable/o0038" android:duration="33"/>
+    <item android:drawable="@drawable/o0039" android:duration="33"/>
+    <item android:drawable="@drawable/o0040" android:duration="33"/>
+    <item android:drawable="@drawable/o0041" android:duration="33"/>
+    <item android:drawable="@drawable/o0042" android:duration="33"/>
+    <item android:drawable="@drawable/o0043" android:duration="33"/>
+    <item android:drawable="@drawable/o0044" android:duration="33"/>
+    <item android:drawable="@drawable/o0045" android:duration="33"/>
+    <item android:drawable="@drawable/o0046" android:duration="33"/>
+    <item android:drawable="@drawable/o0047" android:duration="33"/>
+    <item android:drawable="@drawable/o0048" android:duration="33"/>
+    <item android:drawable="@drawable/o0049" android:duration="33"/>
+    <item android:drawable="@drawable/o0050" android:duration="33"/>
+    <item android:drawable="@drawable/o0051" android:duration="33"/>
+    <item android:drawable="@drawable/o0052" android:duration="33"/>
+    <item android:drawable="@drawable/o0053" android:duration="33"/>
+    <item android:drawable="@drawable/o0054" android:duration="33"/>
+</animation-list>
