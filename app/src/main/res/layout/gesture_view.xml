@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/backgroundLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/straight_animation"
     android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/trafficLight"
+        android:layout_width="250dp"
+        android:layout_height="285dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="230dp"
+        android:contentDescription="@null"
+        app:srcCompat="@drawable/stop" />
 
     <android.gesture.GestureOverlayView
         android:id="@+id/gesture_overlay_view"
@@ -46,15 +56,6 @@
             android:contentDescription="@null"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/road_trip_pause_btn" />
-
-        <ImageView
-            android:id="@+id/trafficLight"
-            android:layout_width="250dp"
-            android:layout_height="285dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="230dp"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/stop" />
 
     </android.gesture.GestureOverlayView>
 
