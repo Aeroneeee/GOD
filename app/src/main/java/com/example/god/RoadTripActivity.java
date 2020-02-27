@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-public class GestureActivity extends AppCompatActivity implements GestureOverlayView.OnGesturePerformedListener {
+public class RoadTripActivity extends AppCompatActivity implements GestureOverlayView.OnGesturePerformedListener {
 
     private GestureLibrary gestureLibrary = null;
 
