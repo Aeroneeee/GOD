@@ -1,14 +1,20 @@
 package com.example.god;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Dialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
@@ -50,6 +56,13 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
+    //BIND Music Service
+        doBindService();
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+        startService(music);
+
+//        startService(new Intent(this, MusicService.class));
         fullscreen();
 
         settingsBtn = findViewById(R.id.settingsBtnId);
@@ -84,9 +97,10 @@ public class PlayActivity extends AppCompatActivity {
                 bounce(settingsBtn);
                 Intent intent = new Intent(PlayActivity.this, SettingsActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                overridePendingTransition(R.anim.slide_in_top, R.anim.fade_out);
             }
         });
+
 
 //        Animation zoom_in_move_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_up);
 //        Animation zoom_in_move_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_move_down);
@@ -120,6 +134,81 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void doBindService() {
+        bindService(new Intent(this,MusicService.class),
+                Scon, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+    private void doUnbindService()
+    {
+        if(mIsBound)
+        {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }
+
+    //Bind/Unbind music service
+    private boolean mIsBound = false;
+    private MusicService mServ;
+    private ServiceConnection Scon =new ServiceConnection(){
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mServ != null) {
+            mServ.resumeMusic();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //Detect idle screen
+        PowerManager pm = (PowerManager)
+                getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
+        if (pm != null) {
+            isScreenOn = pm.isScreenOn();
+        }
+
+        if (!isScreenOn) {
+            if (mServ != null) {
+                mServ.pauseMusic();
+            }
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //UNBIND music service
+        doUnbindService();
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        stopService(music);
+
+    }
+
+
+
+
 
     private void bounce(final ImageButton btn){
         btn.animate().scaleX(0.7f).scaleY(0.7f).setDuration(100).withEndAction(new Runnable() {
@@ -210,12 +299,14 @@ public class PlayActivity extends AppCompatActivity {
         final ImageButton yesButton = quitDialog.findViewById(R.id.yesButton);
         final ImageButton noButton = quitDialog.findViewById(R.id.noButton);
 
+        mServ.pauseMusic();
         quitDialog.show();
 
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bounce(yesButton);
+                mServ.stopMusic();
                 finish();
                 System.exit(0);
             }
@@ -225,6 +316,7 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bounce(noButton);
+                mServ.resumeMusic();
                 quitDialog.dismiss();
             }
         });
