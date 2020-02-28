@@ -4,7 +4,7 @@
     android:id="@+id/backgroundLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/straight_animation"
+    android:background="@drawable/r0001"
     android:orientation="vertical">
 
     <ImageView

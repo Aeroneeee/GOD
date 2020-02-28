@@ -52,13 +52,13 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
 
     final Handler handler = new Handler();
     final Random random = new Random();
-    private int r = random.nextInt(3);
+    private int r = random.nextInt(4);
 
-    public int timeRemaining;
+    public int timeRemaining, turnAnim = 0, startAnim = 0;
 
     public boolean isPaused = false;
 
-    private long millisInFuture = 10000; //10 seconds
+    private long millisInFuture = 50000; //10 seconds
     public short countDownInterval = 1000; //1 second
 
     Dialog pauseDialog, gameOverDialog;
@@ -81,8 +81,6 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
         trafficLight.setImageResource(R.drawable.stop);
         backgroundLayout = findViewById(R.id.backgroundLayout);
 
-//        changeAnim(R.drawable.straight_animation);
-        animToDisplay(r, 0, true);
         init(getApplicationContext());
 
         //Ready countdown
@@ -106,7 +104,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
             public void onFinish() {
                 if (!isPaused) {
                     trafficLight.setVisibility(View.GONE);
-                    anim.start();
+                    animToDisplay(r, 0, true);
                 } else anim.stop();
 
                 gestureOverlayView.setVisibility(View.VISIBLE);
@@ -115,14 +113,15 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
 
                 timer.start();
 
+                if (r == 4) startAnim = 907;
+                else startAnim = 1303;
+
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        anim.stop();
                         animToDisplay(r, 1, false);
-                        anim.start();
                     }
-                }, 1353);
+                }, startAnim);
 
             }
         }.start();
@@ -354,50 +353,66 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
 
                 if (this.sign[r].equals(action)) {
 
-                    gestureOverlayView.setVisibility(View.INVISIBLE);
+                    timer.cancel();
+//                    gestureOverlayView.setVisibility(View.INVISIBLE);
+//
+////                     The variable that will guard the frame number
+//                    int timeRemainingNumber = 0;
+//
+////                     Get the frame of the animation
+//                    Drawable currentFrame, checkFrame;
+//                    currentFrame = anim.getCurrent();
+//
+////                     Checks the position of the frame
+//                    for (int i = 0; i < anim.getNumberOfFrames(); i++) {
+//
+//                        checkFrame = anim.getFrame(i);
+//
+//                        if (checkFrame == currentFrame) {
+//                            timeRemainingNumber = (i*33);
+//                            break;
+//                        }
+//
+//                    }
+//                    Log.i("TAG", "time remaining: " + timeRemainingNumber);
 
-//                     The variable that will guard the frame number
-                    int timeRemainingNumber = 0;
-
-//                     Get the frame of the animation
-                    Drawable currentFrame, checkFrame;
-                    currentFrame = anim.getCurrent();
-
-//                     Checks the position of the frame
-                    for (int i = 0; i < anim.getNumberOfFrames(); i++) {
-
-                        checkFrame = anim.getFrame(i);
-
-                        if (checkFrame == currentFrame) {
-                            timeRemainingNumber = (i*33);
-                            break;
-                        }
-
+                    if (r == 4) {
+                        turnAnim = 1485;
+                        startAnim = 400;
+                    } else {
+                        turnAnim = 2640;
+                        startAnim = 1303;
                     }
-                    Log.i("TAG", "timeremaining: " + timeRemainingNumber);
+
+                    Log.i("TAG", "run: turning");
+                    animToDisplay(r, 2, true);
+
+                    r = random.nextInt(4);
 
                     handler.postDelayed(new Runnable() {
                         @Override
-                        public void run() {
-                            anim.stop();
-                            animToDisplay(r, 2, true);
-                            anim.start();
+                        public void run() {;
+                        Log.i("TAG", "run: new gesture");
+                        animToDisplay(r, 0, true);
 
-                            r = random.nextInt(3);
+                        timer.start();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.i("TAG", "run: looping");
 
-                            gestureOverlayView.setVisibility(View.VISIBLE);
+                                animToDisplay(r, 1, false);
+                            }
+                        }, startAnim);
 
-                            timer.cancel();
-                            timer.start();
                         }
-                    }, timeRemainingNumber);
+                    }, turnAnim);
 
                     this.totalScore = this.totalScore + currentScore;
 
                     StringBuilder scoreStr = new StringBuilder();
                     scoreStr.append(Math.round(this.totalScore));
                     scoreText.setText(scoreStr);
-
                 }
 
             }
@@ -492,11 +507,13 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
         int[][] animArray = {{R.drawable.left1_animation, R.drawable.left2_animation, R.drawable.left3_animation}
                             ,{R.drawable.right1_animation, R.drawable.right2_animation, R.drawable.right3_animation}
                             ,{R.drawable.uturn1_animation, R.drawable.uturn2_animation, R.drawable.uturn3_animation}
-                            ,{R.drawable.overtake1_animation, R.drawable.overtake2_animation, R.drawable.overtake3_animation}
-                            ,{R.drawable.straight_animation}};
+                            ,{R.drawable.overtake1_animation, R.drawable.overtake2_animation, R.drawable.overtake3_animation}};
+
         backgroundLayout.setBackgroundResource(animArray[rand][ordinal]);
         anim = (AnimationDrawable)backgroundLayout.getBackground();
+
         anim.setOneShot(oneShot);
+        anim.start();
     }
 
 }
