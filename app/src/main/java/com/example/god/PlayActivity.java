@@ -1,9 +1,5 @@
 package com.example.god;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,16 +12,16 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.varunest.sparkbutton.SparkButton;
 
@@ -264,7 +260,15 @@ public class PlayActivity extends AppCompatActivity {
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            Log.i("TAG", "Page Num: " + position);
 
+            if (position == 0) {
+                Intent intent = new Intent(sliderAdapter.getContext(), RoadTripActivity.class);
+                sliderAdapter.setIntent(intent);
+            } else {
+                Intent intent = new Intent(sliderAdapter.getContext(), MonsterAttackActivity.class);
+                sliderAdapter.setIntent(intent);
+            }
         }
 
         @Override

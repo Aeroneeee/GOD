@@ -79,7 +79,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gesture_view);
+        setContentView(R.layout.road_trip_gesture_view);
         fullscreen();
 
         scoreText = findViewById(R.id.scoreText);

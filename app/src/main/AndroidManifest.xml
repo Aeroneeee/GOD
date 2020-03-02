@@ -23,6 +23,9 @@
             android:name=".RoadTripActivity"
             android:screenOrientation="portrait" />
         <activity
+        android:name=".MonsterAttackActivity"
+        android:screenOrientation="portrait" />
+        <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>

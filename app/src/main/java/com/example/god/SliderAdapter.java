@@ -26,6 +26,16 @@ public class SliderAdapter extends PagerAdapter {
     Context context;
     LayoutInflater layoutInflater;
 
+    public Intent getIntent() {
+        return gameIntent;
+    }
+
+    public void setIntent(Intent intent) {
+        this.gameIntent = intent;
+    }
+
+    Intent gameIntent;
+
 //    PlayActivity playActivity = new PlayActivity();
 
     public SliderAdapter(Context context) {
@@ -81,8 +91,8 @@ public class SliderAdapter extends PagerAdapter {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(getContext(), RoadTripActivity.class);
-                        context.startActivity(intent);
+//                        Intent intent = new Intent(getContext(), RoadTripActivity.class);
+                        context.startActivity(getIntent());
                     }
                 }, 700);
 
