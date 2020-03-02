@@ -13,7 +13,6 @@ import android.gesture.Prediction;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -28,10 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -45,21 +41,32 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
 
     private TextView scoreText;
     public TextView timerText;
+    public TextView levelText;
     private ImageView trafficLight;
     public LinearLayout backgroundLayout;
 
-    private String[] sign = {"left", "right", "uturn", "overtake"};
-
     final Handler handler = new Handler();
     final Random random = new Random();
-    private int r = random.nextInt(4);
+
+    private String[] sign = {"left", "right", "uturn", "overtake"};
+
+    public int[] randRangePerLvl = {0, 2, 2, 2, 3, 3, 3, 4, 4, 4};
+
+    private int r = 0, stage = 0;
 
     public int timeRemaining, turnAnim = 0, startAnim = 0;
 
-    public boolean isPaused = false;
+    public byte[] numOfDrawPerLvl = {0, 5 ,7 ,10, 10, 10, 12, 15, 20, 30};
 
-    private long millisInFuture = 50000; //10 seconds
-    public short countDownInterval = 1000; //1 second
+//    private long millisInFuture = 10000;
+
+//    public long[] msPerLevel = {10000, 10000, 10000, 8000, 8000, 8000, 6000, 6000, 6000, 5000};
+//    public long countDownInterval = 1000; //1 second
+
+    public int level = 0;
+
+    public boolean isPaused = false;
+    public boolean canEnd = false;
 
     Dialog pauseDialog, gameOverDialog;
 
@@ -77,6 +84,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
 
         scoreText = findViewById(R.id.scoreText);
         timerText = findViewById(R.id.timerText);
+        levelText = findViewById(R.id.levelText);
         trafficLight = findViewById(R.id.trafficLight);
         trafficLight.setImageResource(R.drawable.stop);
         backgroundLayout = findViewById(R.id.backgroundLayout);
@@ -103,15 +111,20 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
             @Override
             public void onFinish() {
                 if (!isPaused) {
+                    level+=5;
+                    stage++;
+                    r = random.nextInt(randRangePerLvl[level]);
                     trafficLight.setVisibility(View.GONE);
                     animToDisplay(r, 0, true);
                 } else anim.stop();
 
                 gestureOverlayView.setVisibility(View.VISIBLE);
+                counter(false);
 
                 //Initialize a new CountDownTimer instance
-
-                timer.start();
+//                timer.start();
+                counter(true);
+                showLevel.start();
 
                 if (r == 4) startAnim = 907;
                 else startAnim = 1303;
@@ -119,7 +132,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        animToDisplay(r, 1, false);
+                    animToDisplay(r, 1, false);
                     }
                 }, startAnim);
 
@@ -155,11 +168,8 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
             @Override
             public void onClick(View v) {
                 isPaused = true;
-
                 anim.stop();
-
                 pauseDialog.show();
-
             }
         });
 
@@ -175,7 +185,8 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
                 pauseDialog.dismiss();
                 fullscreen();
                 isPaused = false;
-                timer.start();
+                counter(true);
+//                timer.start();
             }
         });
 
@@ -184,6 +195,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
             public void onClick(View v) {
                 bounce(restartButton);
                 pauseDialog.dismiss();
+                anim.stop();
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
@@ -220,12 +232,12 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
         });
         mHomeWatcher.startWatch();
     }
-
-    private void doBindService() {
-        bindService(new Intent(this,MusicService.class),
-                Scon, Context.BIND_AUTO_CREATE);
-        mIsBound = true;
-    }
+//
+//    private void doBindService() {
+//        bindService(new Intent(this,MusicService.class),
+//                Scon, Context.BIND_AUTO_CREATE);
+//        mIsBound = true;
+//    }
     private void doUnbindService() {
         if(mIsBound)
         {
@@ -349,76 +361,186 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
             double currentScore = firstPrediction.score;
 
             /* Higher score higher gesture match. */
-            if(firstPrediction.score > 5) {
+            if((firstPrediction.score > 5) && (this.sign[r].equals(action))) {
 
-                if (this.sign[r].equals(action)) {
+                counter(false);
+                canEnd = false;
 
-                    timer.cancel();
-//                    gestureOverlayView.setVisibility(View.INVISIBLE);
-//
-////                     The variable that will guard the frame number
-//                    int timeRemainingNumber = 0;
-//
-////                     Get the frame of the animation
-//                    Drawable currentFrame, checkFrame;
-//                    currentFrame = anim.getCurrent();
-//
-////                     Checks the position of the frame
-//                    for (int i = 0; i < anim.getNumberOfFrames(); i++) {
-//
-//                        checkFrame = anim.getFrame(i);
-//
-//                        if (checkFrame == currentFrame) {
-//                            timeRemainingNumber = (i*33);
-//                            break;
-//                        }
-//
-//                    }
-//                    Log.i("TAG", "time remaining: " + timeRemainingNumber);
+                if (r == 4) {
+                    turnAnim = 1485;
+                    startAnim = 400;
+                } else {
+                    turnAnim = 2640;
+                    startAnim = 1303;
+                }
 
-                    if (r == 4) {
-                        turnAnim = 1485;
-                        startAnim = 400;
-                    } else {
-                        turnAnim = 2640;
-                        startAnim = 1303;
-                    }
+                Log.i("TAG", "run: turning");
+                animToDisplay(r, 2, true);
 
-                    Log.i("TAG", "run: turning");
-                    animToDisplay(r, 2, true);
+                if (stage == numOfDrawPerLvl[level]) {
+                    stage = 0;
+                    level++;
 
-                    r = random.nextInt(4);
+                    showLevel.start();
+                }
+
+                stage++;
+                r = random.nextInt(randRangePerLvl[level]);
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                    Log.i("TAG", "run: new gesture");
+                    animToDisplay(r, 0, true);
+
+//                        timer.start();
+                    counter(true);
 
                     handler.postDelayed(new Runnable() {
                         @Override
-                        public void run() {;
-                        Log.i("TAG", "run: new gesture");
-                        animToDisplay(r, 0, true);
+                        public void run() {
+                            Log.i("TAG", "run: looping");
 
-                        timer.start();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.i("TAG", "run: looping");
-
-                                animToDisplay(r, 1, false);
-                            }
-                        }, startAnim);
-
+                            animToDisplay(r, 1, false);
                         }
-                    }, turnAnim);
+                    }, startAnim);
 
-                    this.totalScore = this.totalScore + currentScore;
+                    }
+                }, turnAnim);
 
-                    StringBuilder scoreStr = new StringBuilder();
-                    scoreStr.append(Math.round(this.totalScore));
-                    scoreText.setText(scoreStr);
-                }
+                this.totalScore = this.totalScore + currentScore;
 
+                StringBuilder scoreStr = new StringBuilder();
+                scoreStr.append(Math.round(this.totalScore));
+                scoreText.setText(scoreStr);
             }
-
         }
     }
+
+    CountDownTimer timer10 = new CountDownTimer(10000, 1000) {
+        public void onTick(long millisUntilFinished) {
+
+            if (isPaused) {
+                Log.i("TAG", "PAUSED!!!!");
+                cancel();
+
+            } else {
+                StringBuilder timerStr = new StringBuilder();
+                timerStr.append(Math.round((int)(millisUntilFinished / 1000)));
+                timerText.setText(timerStr);
+
+                timeRemaining = (int) millisUntilFinished;
+            }
+        }
+
+        public void onFinish() {
+
+            gameOver();
+
+        }
+    };
+    CountDownTimer timer8 = new CountDownTimer(8000, 1000) {
+        public void onTick(long millisUntilFinished) {
+            canEnd = true;
+            if (isPaused) {
+
+                cancel();
+
+            } else {
+                StringBuilder timerStr = new StringBuilder();
+                timerStr.append(Math.round((int)(millisUntilFinished / 1000)));
+                timerText.setText(timerStr);
+
+                timeRemaining = (int) millisUntilFinished;
+            }
+        }
+
+        public void onFinish() {
+            Log.i("TAG", "Charrrr");
+            if (canEnd) gameOver();
+
+        }
+    };
+    CountDownTimer timer6 = new CountDownTimer(6000, 1000) {
+        public void onTick(long millisUntilFinished) {
+
+            if (isPaused) {
+
+                cancel();
+
+            } else {
+                StringBuilder timerStr = new StringBuilder();
+                timerStr.append(Math.round((int)(millisUntilFinished / 1000)));
+                timerText.setText(timerStr);
+
+                timeRemaining = (int) millisUntilFinished;
+            }
+        }
+
+        public void onFinish() {
+
+            gameOver();
+
+        }
+    };
+    CountDownTimer timer4 = new CountDownTimer(4000, 1000) {
+        public void onTick(long millisUntilFinished) {
+
+            if (isPaused) cancel();
+            else {
+                StringBuilder timerStr = new StringBuilder();
+                timerStr.append(Math.round((int)(millisUntilFinished / 1000)));
+                timerText.setText(timerStr);
+
+                timeRemaining = (int) millisUntilFinished;
+            }
+        }
+
+        public void onFinish() {
+
+            gameOver();
+
+        }
+    };
+
+    public void counter (boolean run) {
+        timer10.cancel();
+        timer8.cancel();
+        timer6.cancel();
+        timer4.cancel();
+
+        if (run) {
+            Log.i("TAG", "counter: STAAAAART");
+
+            switch (level) {
+                case 1: case 2: case 3:
+                    timer10.start();
+                    break;
+                case 4: case 5: case 6:
+                    timer8.start();
+                    break;
+                case 7: case 8: case 9:
+                    timer6.start();
+                    break;
+                default: timer4.start();
+            }
+        }
+
+    }
+
+    public CountDownTimer showLevel = new CountDownTimer(3000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            StringBuilder lvlStr = new StringBuilder();
+            lvlStr.append("Level ").append(Math.round(level));
+            levelText.setText(lvlStr);
+            levelText.setVisibility(View.VISIBLE);
+        }
+        @Override
+        public void onFinish() {
+            levelText.setVisibility(View.INVISIBLE);
+        }
+    };
 
     @Override
     public void onBackPressed() {
@@ -438,33 +560,6 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
             }
         });
     }
-
-    public CountDownTimer timer = new CountDownTimer(millisInFuture,countDownInterval){
-        public void onTick(long millisUntilFinished){
-            //do something in every tick
-            if(isPaused) {
-                //If the user request to paused the
-                //CountDownTimer we will cancel the current instance
-                cancel();
-            } else {
-                //Display the remaining seconds to app interface
-                //1 second = 1000 milliseconds
-                //Toast.makeText(getApplicationContext(), "TIMER!!!!! " + (millisUntilFinished / 1000), Toast.LENGTH_LONG).show();
-
-                StringBuilder timerStr = new StringBuilder();
-                timerStr.append(Math.round(millisUntilFinished / 1000));
-                timerText.setText(timerStr);
-
-                //Put count down timer remaining time in a variable
-                timeRemaining = (int) millisUntilFinished;
-            }
-        }
-        public void onFinish(){
-
-            gameOver();
-
-        }
-    };
 
     public void gameOver(){
         gameOverDialog.show();
