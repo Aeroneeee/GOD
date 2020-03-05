@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <com.varunest.sparkbutton.SparkButton
         android:id="@+id/logoId"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="-2dp"
         android:longClickable="true"
         app:sparkbutton_activeImage="@drawable/menu_car_game_logo"
         app:sparkbutton_animationSpeed=".5"
@@ -18,7 +20,6 @@
         app:sparkbutton_inActiveImage="@drawable/menu_car_game_logo"
         app:sparkbutton_primaryColor="@color/primary_color"
         app:sparkbutton_secondaryColor="@color/secondary_color" />
-
 
     <ImageView
         android:id="@+id/nameId"

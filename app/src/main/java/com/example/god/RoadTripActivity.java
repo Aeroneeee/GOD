@@ -111,7 +111,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
             @Override
             public void onFinish() {
                 if (!isPaused) {
-                    level+=5;
+                    level++;
                     stage++;
                     r = random.nextInt(randRangePerLvl[level]);
                     trafficLight.setVisibility(View.GONE);
