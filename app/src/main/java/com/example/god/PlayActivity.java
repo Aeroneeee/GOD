@@ -58,7 +58,7 @@ public class PlayActivity extends AppCompatActivity {
         doBindService();
         Intent music = new Intent();
         music.setClass(this, MusicService.class);
-//        startService(music);
+        startService(music);
 
         mHomeWatcher = new HomeWatcher(this);
         mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {

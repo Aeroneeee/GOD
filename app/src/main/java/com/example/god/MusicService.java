@@ -17,7 +17,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     private final IBinder mBinder = new ServiceBinder();
     private int length = 0;
     MediaPlayer mainPlayer;
-    MediaPlayer carPlayer;
+
 
     public MusicService() { }
 
@@ -45,10 +45,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
         //play activity
         mainPlayer = MediaPlayer.create(this, R.raw.mainbackgroundmusic);
         mainPlayer.setOnErrorListener(this);
-
-        //gesture activity
-        carPlayer = MediaPlayer.create(this, R.raw.bg_music_car);
-        carPlayer.setOnErrorListener(this);
 
 
         if (mainPlayer != null) {
