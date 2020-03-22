@@ -260,7 +260,6 @@ public class PlayActivity extends AppCompatActivity {
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            Log.i("TAG", "Page Num: " + position);
 
             if (position == 0) {
                 Intent intent = new Intent(sliderAdapter.getContext(), RoadTripActivity.class);

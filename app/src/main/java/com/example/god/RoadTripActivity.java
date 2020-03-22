@@ -1,4 +1,5 @@
 package com.example.god;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
@@ -39,9 +40,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
 
     private double totalScore = 0;
 
-    private TextView scoreText;
-    public TextView timerText;
-    public TextView levelText;
+    private TextView scoreText, timerText, levelText, readyLabel;
     private ImageView trafficLight;
     public LinearLayout backgroundLayout;
 
@@ -52,18 +51,11 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
 
     public int[] randRangePerLvl = {0, 2, 2, 2, 3, 3, 3, 4, 4, 4};
 
-    private int r = 0, stage = 0;
+    private int r = 0, stage = 0, level = 0;
 
     public int timeRemaining, turnAnim = 0, startAnim = 0;
 
     public byte[] numOfDrawPerLvl = {0, 5 ,7 ,10, 10, 10, 12, 15, 20, 30};
-
-//    private long millisInFuture = 10000;
-
-//    public long[] msPerLevel = {10000, 10000, 10000, 8000, 8000, 8000, 6000, 6000, 6000, 5000};
-//    public long countDownInterval = 1000; //1 second
-
-    public int level = 0;
 
     public boolean isPaused = false;
     public boolean canEnd = false;
@@ -88,22 +80,28 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
         trafficLight = findViewById(R.id.trafficLight);
         trafficLight.setImageResource(R.drawable.stop);
         backgroundLayout = findViewById(R.id.backgroundLayout);
-
+        readyLabel = findViewById(R.id.readyLabel);
         init(getApplicationContext());
 
         //Ready countdown
         new CountDownTimer(5000, 1000) {
-
+            String[] ready = {"Ready", "Set", "Go!"};
             @Override
             public void onTick(long millisUntilFinished) {
 
                 switch ((int)(millisUntilFinished / 1000)) {
                     case 5:case 4:case 3:case 2:
-                        trafficLight.setImageResource(R.drawable.stop); break;
+                        trafficLight.setImageResource(R.drawable.stop);
+                        readyLabel.setText(ready[0]);
+                        break;
                     case 1:
-                        trafficLight.setImageResource(R.drawable.caution); break;
+                        trafficLight.setImageResource(R.drawable.caution);
+                        readyLabel.setText(ready[1]);
+                        break;
                     default:
-                        trafficLight.setImageResource(R.drawable.go); break;
+                        trafficLight.setImageResource(R.drawable.go);
+                        readyLabel.setText(ready[2]);
+                        break;
                 }
 
             }
@@ -115,6 +113,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
                     stage++;
                     r = random.nextInt(randRangePerLvl[level]);
                     trafficLight.setVisibility(View.GONE);
+                    readyLabel.setVisibility(View.GONE);
                     animToDisplay(r, 0, true);
                 } else anim.stop();
 
@@ -546,7 +545,7 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
     public void onBackPressed() {
         isPaused = true;
 
-        anim.stop();
+        if (anim.isRunning()) anim.stop();
 
         pauseDialog.show();
     }
@@ -562,8 +561,8 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
     }
 
     public void gameOver(){
-        gameOverDialog.show();
         anim.stop();
+        gameOverDialog.show();
 
         final ImageButton retryGameOverButton = gameOverDialog.findViewById(R.id.retryGameOverButton);
         final ImageButton quitGameOverButton = gameOverDialog.findViewById(R.id.quitGameOverButton);

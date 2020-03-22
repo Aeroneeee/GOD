@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/backgroundLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/monster_bg"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/readyLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/grobold"
+        android:text="@string/readylabel"
+        android:textColor="@android:color/black"
+        android:textSize="90sp" />
+
     <android.gesture.GestureOverlayView
-        android:id="@+id/gesture_overlay_view"
+        android:id="@+id/monster_gesture_overlay_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:background="@android:color/transparent"
         android:gestureColor="@color/gestureStrokeColor"
         android:gestureStrokeType="multiple"
-        android:uncertainGestureColor="@color/uncertainGestureStrokeColor" />
+        android:uncertainGestureColor="@color/uncertainGestureStrokeColor" >
+
+        <ImageView
+            android:id="@+id/ninja"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null" />
+
+        <ImageView
+            android:id="@+id/monster1"
+            android:layout_width="130dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="820dp"
+            android:contentDescription="@null" />
+
+        <ImageView
+            android:id="@+id/monster2"
+            android:layout_width="130dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="820dp"
+            android:contentDescription="@null" />
+
+        <ImageView
+            android:id="@+id/monster3"
+            android:layout_width="130dp"
+            android:layout_height="200dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="820dp"
+            android:contentDescription="@null"
+            tools:srcCompat="@drawable/monster_a0004" />
+
+    </android.gesture.GestureOverlayView>
 
 </LinearLayout>

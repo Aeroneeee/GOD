@@ -18,4 +18,5 @@
     <string name="drawThisSign">Draw This Sign</string>
     <string name="timer">0</string>
     <string name="level">Level 1</string>
+    <string name="readylabel">Ready</string>
 </resources>
