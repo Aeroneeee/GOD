@@ -74,6 +74,30 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
         setContentView(R.layout.road_trip_gesture_view);
         fullscreen();
 
+        //BIND Music Service
+        doBindService();
+        Intent roadmusic = new Intent();
+        roadmusic.setClass(this, RoadMusicService.class);
+        startService(roadmusic);
+//        startService(new Intent(this, RoadMusicService.class));
+
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (roadServ != null) {
+                    roadServ.pauseMusic();
+                }
+            }
+            @Override
+            public void onHomeLongPressed() {
+                if (roadServ != null) {
+                    roadServ.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
+
         scoreText = findViewById(R.id.scoreText);
         timerText = findViewById(R.id.timerText);
         levelText = findViewById(R.id.levelText);
@@ -214,49 +238,35 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
             }
         });
 
-        mHomeWatcher = new HomeWatcher(this);
-        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
-            @Override
-            public void onHomePressed() {
-                if (mServ != null) {
-                    mServ.pauseMusic();
-                }
-            }
-            @Override
-            public void onHomeLongPressed() {
-                if (mServ != null) {
-                    mServ.pauseMusic();
-                }
-            }
-        });
-        mHomeWatcher.startWatch();
+
     }
-//
-//    private void doBindService() {
-//        bindService(new Intent(this,MusicService.class),
-//                Scon, Context.BIND_AUTO_CREATE);
-//        mIsBound = true;
-//    }
+
+
+    private void doBindService() {
+        bindService(new Intent(this,RoadMusicService.class),
+                Scon2, Context.BIND_AUTO_CREATE);
+        roadIsBound = true;
+    }
     private void doUnbindService() {
-        if(mIsBound)
+        if(roadIsBound)
         {
-            unbindService(Scon);
-            mIsBound = false;
+            unbindService(Scon2);
+            roadIsBound = false;
         }
     }
 
     //Bind/Unbind music service
-    private boolean mIsBound = false;
-    private MusicService mServ;
-    private ServiceConnection Scon =new ServiceConnection(){
+    private boolean roadIsBound = false;
+    private RoadMusicService roadServ;
+    private ServiceConnection Scon2 =new ServiceConnection(){
 
         public void onServiceConnected(ComponentName name, IBinder
                 binder) {
-            mServ = ((MusicService.ServiceBinder)binder).getService();
+            roadServ = ((RoadMusicService.ServiceBinder)binder).getService();
         }
 
         public void onServiceDisconnected(ComponentName name) {
-            mServ = null;
+            roadServ = null;
         }
     };
 
@@ -264,8 +274,8 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
     protected void onResume() {
         super.onResume();
 
-        if (mServ != null) {
-            mServ.resumeMusic();
+        if (roadServ != null) {
+            roadServ.resumeMusic();
         }
     }
 
@@ -282,8 +292,8 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
         }
 
         if (!isScreenOn) {
-            if (mServ != null) {
-                mServ.pauseMusic();
+            if (roadServ != null) {
+                roadServ.pauseMusic();
             }
         }
     }
@@ -295,10 +305,11 @@ public class RoadTripActivity extends AppCompatActivity implements GestureOverla
         //UNBIND music service
         doUnbindService();
         Intent music = new Intent();
-        music.setClass(this,MusicService.class);
+        music.setClass(this,RoadMusicService.class);
         stopService(music);
 
     }
+
 
     private void init(Context context) {
 
