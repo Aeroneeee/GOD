@@ -173,7 +173,24 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
                     monster3.clearAnimation();
                     monster3.setVisibility(View.INVISIBLE);
                     killedMonster3 = true;
-                    nextWave();
+
+                }
+
+                if (killedMonster1 && killedMonster2 && killedMonster3) {
+
+                    Log.i("TAG!", "another wave");
+                    if (numOfWavePerLvl[level] == wave) {
+
+                        wave = 0;
+                        level++;
+
+                    }
+
+                    wave++;
+
+                    killedMonster1 = killedMonster2 = killedMonster3 = false;
+
+                    generateWave(randRangePerLvl[level], durationPerLvl[level]);
 
                 }
 
@@ -233,24 +250,4 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
         monster3.startAnimation(monsterTrack3);
     }
 
-    private void nextWave() {
-
-        if (killedMonster1 && killedMonster2 && killedMonster3) {
-
-            Log.i("TAG!", "another wave");
-            if (numOfWavePerLvl[level] == wave) {
-
-                wave = 0;
-                level++;
-
-            }
-
-            wave++;
-
-            killedMonster1 = killedMonster2 = killedMonster3 = false;
-
-            generateWave(randRangePerLvl[level], durationPerLvl[level]);
-
-        }
-    }
 }
