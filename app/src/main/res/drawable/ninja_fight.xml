@@ -19,5 +19,4 @@
     <item android:drawable="@drawable/ninja_fight0017" android:duration="33"/>
     <item android:drawable="@drawable/ninja_fight0018" android:duration="33"/>
     <item android:drawable="@drawable/ninja_fight0019" android:duration="33"/>
-    <item android:drawable="@drawable/ninja_fight0020" android:duration="33"/>
 </animation-list>

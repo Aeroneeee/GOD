@@ -29,6 +29,40 @@
         android:gestureStrokeType="multiple"
         android:uncertainGestureColor="@color/uncertainGestureStrokeColor" >
 
+        <TextView
+            android:id="@+id/levelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="350dp"
+            android:fontFamily="@font/grobold"
+            android:text="@string/level"
+            android:textColor="@android:color/black"
+            android:textSize="90sp" />
+
+        <ImageView
+            android:id="@+id/heart1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/monster_heart" />
+
+        <ImageView
+            android:id="@+id/heart2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="90dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/monster_heart" />
+
+        <ImageView
+            android:id="@+id/heart3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="180dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/monster_heart" />
+
         <ImageView
             android:id="@+id/ninja"
             android:layout_width="wrap_content"
