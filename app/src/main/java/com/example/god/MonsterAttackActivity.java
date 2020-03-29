@@ -1,6 +1,7 @@
 package com.example.god;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.gesture.Gesture;
@@ -8,13 +9,16 @@ import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.Prediction;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class MonsterAttackActivity extends AppCompatActivity implements GestureOverlayView.OnGesturePerformedListener {
@@ -48,7 +53,7 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
 
     final Random random = new Random();
 
-    private int r1 = 0, r2 = 0, r3 = 0, level = 0, wave = 0, numberOfHeart = 0;
+    private int r1 = 0, r2 = 0, r3 = 0, level = 0, wave = 0, numberOfHeart = 0, totalScore = 0;
 
     private String[] actionList = {"ver", "hor", "down", "up", "heart", "close", "open"};
 
@@ -59,6 +64,8 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
     private int[] durationPerLvl = {0, 15000, 15000, 10000, 10000, 8000, 8000, 8000, 5000, 5000, 5000};
 
     private boolean killedMonster1, killedMonster2, killedMonster3;
+
+    private Dialog gameOverDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +121,8 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
                 level = 1;
 
                 numberOfHeart = 3;
+
+                totalScore = 0;
 
                 killedMonster1 = killedMonster2 = killedMonster3 = false;
 
@@ -182,6 +191,7 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
 
                 if (action.equals(actionList[r1])){
 
+                    totalScore++;
                     monster1.clearAnimation();
                     monster1.setVisibility(View.INVISIBLE);
                     killedMonster1 = true;
@@ -189,6 +199,7 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
 
                 if (action.equals(actionList[r2])){
 
+                    totalScore++;
                     monster2.clearAnimation();
                     monster2.setVisibility(View.INVISIBLE);
                     killedMonster2 = true;
@@ -197,6 +208,7 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
 
                 if (action.equals(actionList[r3])){
 
+                    totalScore++;
                     monster3.clearAnimation();
                     monster3.setVisibility(View.INVISIBLE);
                     killedMonster3 = true;
@@ -205,6 +217,7 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
 
                 if (action.equals(actionList[4])){
 
+                    totalScore++;
                     if (numberOfHeart < 3) heart(true);
 
                 }
@@ -274,8 +287,9 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
 
     private void heart(boolean add) {
 
-        if (add) numberOfHeart++;
-        else numberOfHeart--;
+        if ( add && numberOfHeart <= 3) numberOfHeart++;
+
+        if ( !add && numberOfHeart >= 1) numberOfHeart--;
 
         switch (numberOfHeart) {
             case 3:
@@ -310,7 +324,8 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
         public void onFinish() {
 
             heart(false);
-            nextWave();
+
+            if(!(numberOfHeart < 1)) nextWave();
 
         }
     };
@@ -322,7 +337,7 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
         public void onFinish() {
 
             heart(false);
-            nextWave();
+            if(!(numberOfHeart < 1)) nextWave();
 
         }
     };
@@ -334,7 +349,7 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
         public void onFinish() {
 
             heart(false);
-            nextWave();
+            if(!(numberOfHeart < 1)) nextWave();
 
         }
     };
@@ -346,7 +361,7 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
         public void onFinish() {
 
             heart(false);
-            nextWave();
+            if(!(numberOfHeart < 1)) nextWave();
 
         }
     };
@@ -419,41 +434,48 @@ public class MonsterAttackActivity extends AppCompatActivity implements GestureO
 
         ninjaAnim.stop();
 
+        gameOverDialog = new Dialog(this, R.style.PauseDialog);
+        gameOverDialog.setContentView(R.layout.monster_gameover_view);
+        Objects.requireNonNull(gameOverDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        gameOverDialog.setCanceledOnTouchOutside(false);
+        gameOverDialog.setCancelable(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(gameOverDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        gameOverDialog.getWindow().setAttributes(lp);
 
-//        anim.stop();
+        gameOverDialog.show();
 
-//        gameOverDialog.show();
-//
-//        final ImageButton retryGameOverButton = gameOverDialog.findViewById(R.id.retryGameOverButton);
-//        final ImageButton quitGameOverButton = gameOverDialog.findViewById(R.id.quitGameOverButton);
-//        final TextView scoreText = gameOverDialog.findViewById(R.id.scoreText);
-//
-//        StringBuilder scoreStr = new StringBuilder();
-//        scoreStr.append(Math.round(this.totalScore));
-//        scoreText.setText(scoreStr);
-//
-//        retryGameOverButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                bounce(retryGameOverButton);
-//                gameOverDialog.dismiss();
-//                Intent intent = getIntent();
-//                finish();
+
+        final ImageButton retryGameOverButton = gameOverDialog.findViewById(R.id.retryGameOverButton);
+        final ImageButton quitGameOverButton = gameOverDialog.findViewById(R.id.quitGameOverButton);
+        final TextView scoreText = gameOverDialog.findViewById(R.id.scoreText);
+
+        StringBuilder scoreStr = new StringBuilder();
+        scoreStr.append(Math.round(this.totalScore));
+        scoreText.setText(scoreStr);
+
+        retryGameOverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameOverDialog.dismiss();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+
+        quitGameOverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.exit(0);
+
+//                Intent intent = new Intent(GestureActivity.this, PlayActivity.class);
 //                startActivity(intent);
-//                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//            }
-//        });
-//
-//        quitGameOverButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                bounce(quitGameOverButton);
-//                System.exit(0);
-//
-////                Intent intent = new Intent(GestureActivity.this, PlayActivity.class);
-////                startActivity(intent);
-//                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//            }
-//        });
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
     }
 }
